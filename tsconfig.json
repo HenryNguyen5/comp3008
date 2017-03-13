@@ -1,19 +1,21 @@
 {
-	"rules": {
-		"no-unused-expression": true,
-		"no-duplicate-variable": true,
-		"no-unused-variable": true,
-		"curly": true,
-		"class-name": true,
-		"prefer-const": true,
-		"semicolon": ["always"],
-		"triple-equals": true,
-		"no-var-keyword": true,
-		"no-require-imports": false,
-		"variable-name": [
-			true,
-			"ban-keywords"
-		]
-		
-	}
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "noEmitOnError": false,
+    "watch": false,
+    "noImplicitReturns": true,
+    "typeRoots": [ "node_modules/@types" ]
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
