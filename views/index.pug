@@ -1,7 +1,12 @@
 extends layout
 
-
 block header
 
 block content
-  h1= title
+  h1#site Here is your password for {site}
+  p#textPass <br/>{text password}
+  keyboard
+    include keyboard.pug
+  h1#confirm Confirm your password
+  input#passBox
+  | enter password
