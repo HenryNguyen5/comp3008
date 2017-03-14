@@ -10,12 +10,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const user_1 = require("../db/user");
+const password_1 = require("../lib/password");
 user_1.connectToDb();
+console.log(password_1.createPasswordObj());
 const router = express.Router();
 exports.router = router;
 const wrap = require("express-async-wrap");
 router.get('/', (req, res) => {
     res.render('index');
+});
+router.get('/getPassword', (req, res) => {
+    res.send(password_1.createPasswordObj());
 });
 router.post('/testResults', wrap((req, res) => __awaiter(this, void 0, void 0, function* () {
 })));

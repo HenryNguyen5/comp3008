@@ -29,7 +29,7 @@ function createPasswordObj(): PasswordObj {
 function createPwdScheme(): PwdScheme {
     const randomService = randomArrayElement(services);
     return {
-        service: randomService(),
+        service: randomService,
         shapes: createRandomShapes(),
         attempts: 3
     };
@@ -39,7 +39,7 @@ const createRandomShapes = function createRandomShapes():Array<Shapes> {
     const numOfShapes = randomInteger(2,4);
     const shapeArr: Array<Shapes> = [];
     for (let i = 0; i < numOfShapes; i++) {
-        const randomShape = passGens[randomArrayElement(shapes)];
+        const randomShape = passGens[randomArrayElement(shapes)]();
         console.log(`Shape selected: ${randomShape}`);
         shapeArr.push(randomShape);
     }
@@ -47,12 +47,12 @@ const createRandomShapes = function createRandomShapes():Array<Shapes> {
 };
 
 const randomArrayElement = function(arr:Array<any>):any {
-    const randomIdx = randomInteger(0, arr.length -1);
+    const randomIdx = randomInteger(0, arr.length -1);    
     return arr[randomIdx];
 };
 
 const randomInteger = function (min:number, max:number):number{
-    return Math.floor(Math.random() * (min - max) + min);
+    return Math.floor(Math.random() * (max - min) + min);
 };
 
 export { createPasswordObj, PasswordObj, PwdScheme }
