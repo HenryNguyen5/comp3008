@@ -9,13 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const camo_1 = require("camo");
-const uri = 'nedb:///comp3008';
+const uri = 'nedb:///comp3008/';
 class User extends camo_1.Document {
     constructor() {
         super();
         this.name = String;
-        this.consent = Buffer;
-        this.results = [PasswordResults];
     }
     static get(u) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -61,7 +59,12 @@ class PasswordResults extends camo_1.EmbeddedDocument {
     }
     ;
 }
-camo_1.connect(uri).then(function (ubase) {
-    console.log('Connected to db!');
-});
+function connectToDb() {
+    camo_1.connect(uri).then(function (ubase) {
+        console.log('Connected to db!');
+    }).catch((err) => {
+        console.log(err);
+    });
+}
+exports.connectToDb = connectToDb;
 //# sourceMappingURL=user.js.map

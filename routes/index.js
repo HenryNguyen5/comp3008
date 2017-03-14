@@ -9,6 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
+const user_1 = require("../db/user");
+user_1.connectToDb();
 const router = express.Router();
 exports.router = router;
 const wrap = require("express-async-wrap");

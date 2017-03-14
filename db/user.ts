@@ -1,5 +1,7 @@
 import {EmbeddedDocument, connect, Document} from 'camo';
-const uri = 'nedb:///comp3008';
+
+const uri = 'nedb:///comp3008/';
+
 
 /**
 * User
@@ -8,8 +10,8 @@ export class User extends Document<any>{
     constructor() {
         super();
         this.name = String;
-        this.consent = Buffer;
-        this.results = [PasswordResults];
+        //this.consent = Buffer;
+        //this.results = [PasswordResults];
     }
 
     private static async get(u) {
@@ -69,6 +71,11 @@ class PasswordResults extends EmbeddedDocument<any> {
 
 }
 
+export function connectToDb(){
 connect(uri).then(function (ubase) {
 	console.log('Connected to db!');
+}).catch((err) => {
+	console.log(err);
+	
 });
+}
