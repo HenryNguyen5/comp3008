@@ -37,10 +37,11 @@ function createPwdScheme(): PwdScheme {
 
 const createRandomShapes = function createRandomShapes():Array<Shapes> {
     const numOfShapes = randomInteger(2,4);
+    
     const shapeArr: Array<Shapes> = [];
     for (let i = 0; i < numOfShapes; i++) {
         const randomShape = passGens[randomArrayElement(shapes)]();
-        console.log(`Shape selected: ${randomShape}`);
+        //console.log(`Shape selected: ${randomShape}`);
         shapeArr.push(randomShape);
     }
     return shapeArr;
@@ -52,7 +53,7 @@ const randomArrayElement = function(arr:Array<any>):any {
 };
 
 const randomInteger = function (min:number, max:number):number{
-    return Math.floor(Math.random() * (max - min + 1) );
+    return Math.floor(Math.random() * ( max - min + 1) + min ) ;
 };
 
 export { createPasswordObj, PasswordObj, PwdScheme }
