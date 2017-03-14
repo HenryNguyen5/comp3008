@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const router = express.Router();
+exports.router = router;
 const wrap = require("express-async-wrap");
 router.get('/', (req, res) => {
     res.render('index');
