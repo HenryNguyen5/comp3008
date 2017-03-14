@@ -52,7 +52,7 @@ const randomArrayElement = function(arr:Array<any>):any {
 };
 
 const randomInteger = function (min:number, max:number):number{
-    return Math.floor(Math.random() * (max - min) + min);
+    return Math.floor(Math.random() * (max - min + 1) );
 };
 
 export { createPasswordObj, PasswordObj, PwdScheme }
