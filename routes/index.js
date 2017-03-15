@@ -19,9 +19,9 @@ const wrap = require("express-async-wrap");
 router.get('/', (req, res) => {
     res.render('index');
 });
-router.get('/getPassword', (req, res) => {
+router.get('/getPassword', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.send(password_1.createPasswordObj());
-});
+}));
 router.post('/testResults', wrap((req, res) => __awaiter(this, void 0, void 0, function* () {
 })));
 //# sourceMappingURL=index.js.map

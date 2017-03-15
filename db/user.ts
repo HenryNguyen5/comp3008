@@ -1,6 +1,9 @@
+import path = require('path')
 import {EmbeddedDocument, connect, Document} from 'camo';
 
-const uri = 'nedb:///comp3008/';
+console.log(__dirname);
+
+const uri = `nedb://${path.join( __dirname,'dbstore/')}`;
 
 
 /**
@@ -42,7 +45,7 @@ export class User extends Document<any>{
 			console.log(`\n\nCreated and saved user`, newUser);
 			return;
 		} catch (e) {
-			console.log(e);
+			throw e;
 		}
 	}
 }
@@ -68,7 +71,6 @@ class PasswordResults extends EmbeddedDocument<any> {
         this.failed = Boolean;
         this.loginTime = Number;
     };
-
 }
 
 export function connectToDb(){

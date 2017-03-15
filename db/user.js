@@ -8,8 +8,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const path = require("path");
 const camo_1 = require("camo");
-const uri = 'nedb:///comp3008/';
+console.log(__dirname);
+const uri = `nedb://${path.join(__dirname, 'dbstore/')}`;
 class User extends camo_1.Document {
     constructor() {
         super();
@@ -40,7 +42,7 @@ class User extends camo_1.Document {
                 return;
             }
             catch (e) {
-                console.log(e);
+                throw e;
             }
         });
     }
