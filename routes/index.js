@@ -11,6 +11,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const user_1 = require("../db/user");
 const password_1 = require("../lib/password");
+const fs = require("fs");
+const path = require("path");
 user_1.connectToDb();
 console.log(password_1.createPasswordObj());
 const router = express.Router();
@@ -18,6 +20,16 @@ exports.router = router;
 const wrap = require("express-async-wrap");
 router.get('/', (req, res) => {
     res.render('index');
+});
+router.get('/sendConsent', (req, res) => {
+    res.contentType('application/pdf');
+    const rs = fs.createReadStream(`${path.join(__dirname, '../public/pdfs/consent.pdf')}`);
+    rs.pipe(res);
+});
+router.get('/sendDebrief', (req, res) => {
+    res.contentType('application/pdf');
+    const rs = fs.createReadStream(`${path.join(__dirname, '../public/pdfs/debrief.pdf')}`);
+    rs.pipe(res);
 });
 router.get('/getPassword', (req, res) => __awaiter(this, void 0, void 0, function* () {
     res.send(password_1.createPasswordObj());
