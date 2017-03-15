@@ -1,102 +1,58 @@
-::selection{background-color:none; color:inherit;}
-
-body{
-  background-color: #000; 
+* {
+    margin: 0;
+    padding: 0;
 }
 
-h1{
-	color: #fff;
-	margin-left: 10px;
+body {
+    font: 71%/1.5 Verdana, Sans-Serif;
+    background: #eee;
 }
 
-p{
-	color: #fff;
-	margin-left: 50px;
+#keyboard {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    width: 48.25em;
+    margin: 10px;
+    list-style: none;
+    border: 1px solid #000;
+    background: #fff;
+    box-shadow: inset 0px 0px 2px #000000;
 }
 
-#passBox{
-	margin-left: 50px;
-	background-color: #000;
-	color: #fff;
+#keyboard .row li {
+    margin: 0 5px 5px 0;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #000;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: 2px 2px 3px #000000;
 }
 
-.keyboard{
-  width:800px; height: 320px;
-  background-color: #222;
-  margin: 50px;
-  border: solid white 5px;
-  padding: 30px;
-  color: #eee;
+.row.keys {
+    padding-left: 10px;
 }
 
-.logo{
-  width:40px; height:40px;
-  background-color:#CCC;
-  color: #222;
-  font-weight:300;
-  font-style: oblique;
-  font-size:30px;
-  line-height:40px;
-  text-align:center;
-  margin: -20px auto 10px auto;
-  border-radius:40px;
+#keyboard .row #key-offset0 {
+    width: 85px;
 }
 
-
-.lights{
-  float:right;
-  position:relative;
-  top:-45px;
-  right:8px;
-  padding:0;
-  margni:0;
-}
-.lights span{margin:0 20px 0 20px; padding:0; text-align: center;}
-.lights span:after{
-  content:"";
-  width:11px; height:8px;
-  top: 22px; margin-left:-9px;
-  background-color:#DBB921;
-  position:absolute;
-  border-radius: 3px;
+#keyboard .row #key-offset1 {
+    width: 20px;
 }
 
-.key{
-  width: 40px; height:40px;
-  display:block;
-  background-color:#333;
-  text-align: left;
-  padding-left: 8px;
-  line-height: 29px;
-  border-radius:2px;
-  float:left; margin-left: 2px;
-  margin-bottom:2px;
-  cursor: pointer;
-  transition: box-shadow 0.7s ease;
+#keyboard .row #key-offset2 {
+    width: 40px;
 }
 
-.section-a{width:650px; height:260px; float:left;}
-.section-b{width:150px; height:260px; float:left;}
+#keyboard .row #key-offset3 {
+    width: 60px;
+}
 
-.function{font-size: 12px; width:30px; height:30px; margin-bottom:15px;}
-.small{font-size:10px; line-height:13px; text-align: center; padding:0 5px; padding-top:2px; height:28px !important;}
-.space1{margin-right: 43px !important;}
-.space2{margin-right: 25px !important;}
-.dual {font-size: 14px; line-height: 20px; width:30px; }
-.backspace {width:84px; font-size: 12px;}
-.tab {width: 50px; line-height: 40px; font-size:13px;}
-.letter{width:30px;}
-.slash{width:64px;}
-.caps{width:70px; font-size:12px; line-height:18px;}
-.enter{width:92px; line-height:40px; text-align: center; padding-left:0;}
-.shift.left{width: 90px;line-height: 40px; font-size:13px;}
-.shift.right{width: 104px;line-height: 40px; font-size:13px;}
-.ctrl{width: 50px; line-height: 40px; font-size:13px;}
-.space{width:234px;}
-.arrows{position:relative; top:42px;}
-.sec-func .key{width: 32px; font-size:10px; text-align:left; line-height:40px; float:left;}
-.sec-func div.dual{line-height:20px;}
-.arrows .key{text-align: center; padding-left: 7px; margin-left:2px;}
-.hidden{visibility: hidden;}
-
-.key:hover{box-shadow:0px 0px 10px #14B524; z-index:1000;}
+.uppercase {
+    text-transform: uppercase;
+}
