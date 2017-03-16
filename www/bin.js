@@ -1,7 +1,9 @@
 #!/usr/bin/env node
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const app = require('../app');
-const http = require('http');
-const port = normalizePort(process.env.PORT || '3000');
+const http = require("http");
+const port = normalizePort(process.argv[2] || process.env.PORT || '3000');
 app.set('port', port);
 const server = http.createServer(app);
 server.listen(port, 'localhost');
