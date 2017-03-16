@@ -1,0 +1,18 @@
+.container {
+    max-width: 50em;
+    -webkit-box-shadow: 10px 14px 35px -20px rgba(0, 0, 0, 0.46);
+    -moz-box-shadow: 10px 14px 35px -2px rgba(0, 0, 0, 0.46);
+    box-shadow: 10px 14px 35px -2px rgba(0, 0, 0, 0.46);
+    padding: 0;
+    background-color: #343f39;
+}
+
+#pwBox {
+    margin: 4em;
+    margin-top: 1em;
+}
+
+#uploadText {
+    margin: 1em;
+    margin-left: 5em;
+}

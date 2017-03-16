@@ -1,0 +1,51 @@
+#keyboard {
+    margin: 0.5em;
+    padding: 0.5em;
+    list-style: none;
+    border: 1px solid #000;
+    background: #3a3a3a;
+    box-shadow: inset 0px 0px 2px #000000;
+}
+
+#keyboard .row li {
+    font-size: 2em;
+    margin: 0.1em;
+    width: 1.85em;
+    height: 1.85em;
+    line-height: 2em;
+    text-align: center;
+    color: #e8e8e8;
+    border-radius: 5px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 2px 2px 3px #000000;
+}
+
+#keyboard .row #_1,
+#keyboard .row #key-offset1,
+#keyboard .row #key-offset2,
+#keyboard .row #key-offset3 {
+    margin-left: 0.85em;
+}
+
+#keyboard .row #key-offset0 {
+    width: 85px;
+}
+
+#keyboard .row #key-offset1,
+#keyboard .row #key-offset4 {
+    width: 20px;
+}
+
+#keyboard .row #key-offset2,
+#keyboard .row #key-offset5 {
+    width: 40px;
+}
+
+#keyboard .row #key-offset3,
+#keyboard .row #key-offset6 {
+    width: 60px;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}

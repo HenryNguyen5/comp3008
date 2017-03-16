@@ -1,10 +1,9 @@
 doctype strict
 html
   head
-    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
-    link(rel='stylesheet', href='stylesheets/style.css')
+    link(rel='stylesheet', href='stylesheets/keyboard.css')
   body
-      ul#keyboard
+    ul#keyboard
         -
           var row1 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
           var row2 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
@@ -12,22 +11,22 @@ html
           var row4 = ["Z", "X", "C", "V", "B", "N", "M", ",", ".", "/"];
         .row.keys
           each val in row1 
-            li.symbol(id= val)=val 
+            li.symbol(id= '_'+val)=val 
           li#key-offset0
         .row.keys
           li#key-offset1
           each val in row2 
             li.letter(id= val)=val 
-          li#key-offset3
+          li#key-offset6
 
         .row.keys
           li#key-offset2
           each val in row3 
             li.letter(id= val)=val 
-          li#key-offset2
+          li#key-offset5
 
         .row.keys
           li#key-offset3
           each val in row4
             li.letter(id= val)=val 
-          li#key-offset1
+          li#key-offset4

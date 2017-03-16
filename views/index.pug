@@ -4,10 +4,29 @@ block header
   title Thing
 
 block content
-  h1#service Here is your password for {service}
-  p#textPass <br/>{text password}
-  keyboard
-    include keyboard.pug
-  h1#confirm Confirm your password
-  input#passBox
-  | enter password
+  nav.navbar.navbar-inverse.bg-inverse
+    a.navbar-brand(href='#') COMP 3008 Password Scheme
+      ul.navbar-nav.mr-auto
+        li.nav-item.active
+
+
+
+  .row
+    .col-md-12.col-sm-12.col-lg-12
+      include keyboard.pug
+  .row
+    .col-md-12
+      .input-group
+        input.form-control(type="text", placeholder="Enter your password")#pwBox
+
+  button.btn.btn-success#uploadText(data-toggle='modal', data-target='#uploadFile')     Upload File
+
+  #uploadFile.modal.fade(tabindex='-1', role='dialog', aria-labelledby='uploadFileModal', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4#uploadFileModal.modal-title.text-center Drag and drop file/folder here
+        .modal-body
+          img#dropzone.img-responsive(src='http://image.flaticon.com/icons/svg/283/283734.svg')
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
