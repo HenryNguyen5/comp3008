@@ -8,13 +8,13 @@
  */
 //172.31.192.36/
 const app = require('../app');
-const http = require('http');
+import http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.argv[2] || process.env.PORT || '3000');
 app.set('port', port);
 
 /**
