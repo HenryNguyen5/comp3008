@@ -5,8 +5,9 @@ const app = require('../app');
 const http = require("http");
 const port = normalizePort(process.argv[2] || process.env.PORT || '3000');
 app.set('port', port);
+const ipAddress = (process.argv[3] || 'localhost');
 const server = http.createServer(app);
-server.listen(port, 'localhost');
+server.listen(port, ipAddress);
 server.on('error', onError);
 server.on('listening', onListening);
 function normalizePort(val) {

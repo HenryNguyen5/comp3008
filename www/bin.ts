@@ -17,6 +17,7 @@ import http = require('http');
 const port = normalizePort(process.argv[2] || process.env.PORT || '3000');
 app.set('port', port);
 
+const ipAddress = (process.argv[3] || 'localhost');
 /**
  * Create HTTP server.
  */
@@ -27,7 +28,7 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port, 'localhost');
+server.listen(port, ipAddress);
 server.on('error', onError);
 server.on('listening', onListening);
 /**
