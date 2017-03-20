@@ -8,9 +8,6 @@ block content
     a.navbar-brand(href='#') COMP 3008 Password Scheme
       ul.navbar-nav.mr-auto
         li.nav-item.active
-
-
-
   .row
     .col-md-12.col-sm-12.col-lg-12
        include keyboard.pug
@@ -28,5 +25,15 @@ block content
           h4#uploadFileModal.modal-title.text-center Drag and drop your filled consent form here
         .modal-body
           img#dropzone.img-responsive(src='http://image.flaticon.com/icons/svg/283/283734.svg')
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          
+  #service.modal.fade(tabindex='-1', role='dialog', aria-labelledby='uploadFileModal', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4#uploadFileModal.modal-title.text-center Placeholder
+        .modal-body
+          p#instructions Instructions
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
