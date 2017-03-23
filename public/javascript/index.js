@@ -9,6 +9,39 @@ let time = 0;
 let currPass = null;
 let passwords = null;
 let currShape = null;
+let done = false;
+
+const response_format = {
+	pw1 : {
+		service : "",
+		allowedAttempts : 0,
+		attempts : 0,
+		givenShapes : [],
+		receivedShapes : [],
+		failed : true,
+		loginTime : 0
+	},
+	pw2 : {
+		service : "",
+		allowedAttempts : 0,
+		attempts : 0,
+		givenShapes : [],
+		receivedShapes : [],
+		failed : true,
+		loginTime : 0		
+	},
+	pw3 : {
+		service : "",
+		allowedAttempts : 0,
+		attempts : 0,
+		givenShapes : [],
+		receivedShapes : [],
+		failed : true,
+		loginTime : 0	
+	}
+}
+
+let response = response_format;
 
 const instructions = ["Here is part ", " of your password for: ", ". Please input \
 	your password as shown by the animation."]
@@ -24,6 +57,7 @@ $(function(){
 	//enter key handler
 	$("#pwBox").keypress(function(ev){
 		if(ev.which===13){
+			response['pw'+currPass].receivedShapes.push($(this).val());
             if (validatePassword($(this).val()))
             {
                 nextShape();
@@ -31,6 +65,7 @@ $(function(){
             else
             {
                 attempts += 1;
+				$(this).val("");
                 if (attempts === max_attempts)
                 {
                     end(false);
@@ -42,7 +77,13 @@ $(function(){
 	//modal close handler
 	$("#service").on('hidden.bs.modal', function()
 	{
+		if (done) return;
+		
 		time = performance.now();
+		
+		response['pw'+currPass].service = passwords['pw'+currPass].service
+		response['pw'+currPass].givenShapes = passwords['pw'+currPass].shapes
+		response['pw'+currPass].allowedAttempts = max_attempts;
 		
 		let pw = passwords['pw'+currPass].shapes;        
 		let k = shapesToCoords(pw);
@@ -92,12 +133,17 @@ const setup = function(data)
 
 const nextShape = function()
 {
+	//finished current password
     if (currShape+1 === passwords['pw'+currPass].shapes.length)
     {
+		response['pw'+currPass].loginTime = performance.now() - time;
+		response['pw'+currPass].attempts = response['pw'+currPass].receivedShapes.length - response['pw'+currPass].givenShapes.length;
+		time = 0;
         start();
         return;
     }
-    
+	
+    attempts = 0;
     $("#pwBox").val("");
     currShape += 1;
     $("#service").modal('show');
@@ -108,13 +154,20 @@ const nextShape = function()
 const start = function()
 {
     if (currPass > 0)
-    for(let c of passwords['pw'+currPass].shapes[currShape]){
-        let element = document.getElementById('_' + c);
-        element.classList.remove("active");
-    }
+	{
+		for(let c of passwords['pw'+currPass].shapes[currShape]){
+			let element = document.getElementById('_' + c);
+			element.classList.remove("active");
+		}
+		response['pw'+currPass].failed = false;
+	}
     
     currPass += 1;
-    if (currPass === 4) end(true);
+    if (currPass === 4)
+	{
+		end(true);
+		return;
+	}
     currShape = -1;
     nextShape();
 }
@@ -170,14 +223,12 @@ const getCoordinates = function getCoordinates(id){
 
 const end = function end(success)
 {
-    
+	
+    $("#service").modal('show');
+	$("#instructions").html("You're done! Thanks for participating");
+	
+	//send reponse to the server here
+    console.log(response);
+	
+	done = true;
 }
-/*
-this.service = String;
-this.allowedAttempts = Number;
-this.attempts = Number;
-this.givenShapes = Array;
-this.receivedShapes = Array;
-this.failed = Boolean;
-this.loginTime = Number;
-*/
