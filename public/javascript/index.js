@@ -1,61 +1,42 @@
-const max_attempts = 3;
+let setup;
 
-const response_format = {
-	pw1: {
-		service: "",
-		allowedAttempts: 0,
-		attempts: 0,
-		givenShapes: [],
-		receivedShapes: [],
-		failed: true,
-		loginTime: 0
-	},
-	pw2: {
-		service: "",
-		allowedAttempts: 0,
-		attempts: 0,
-		givenShapes: [],
-		receivedShapes: [],
-		failed: true,
-		loginTime: 0
-	},
-	pw3: {
-		service: "",
-		allowedAttempts: 0,
-		attempts: 0,
-		givenShapes: [],
-		receivedShapes: [],
-		failed: true,
-		loginTime: 0
-	}
-}
-
-const instructions = ["Here is your password for: ", ". Please input \
+const instructions_str = ["Here is your password for: ", ". Please input \
 	your password as shown by the animation."]
 
 $(function () {
 	$.ajax({
 		method: "GET",
 		url: '/getPassword',
-		success: setup,
+		success: (data) => {setup = new Setup(data)},
 		dataType: 'json'
 	});
 
 	//enter key handler
 	$("#pwBox").keypress(function (ev) {
 		if (ev.which === 13) {
-			if (setup.validatePassword($(this).val())) {
-                setup.nextShape();
-			} else {
-                console.log("you fucked up");
-			}
-			$(this).val("");
+            if (!setup.logging)
+            {
+                if (setup.validatePassword($(this).val())) {
+                    setup.nextShape();
+                } else {
+                    console.log("you fucked up");
+                }
+            }
+            else
+            {
+                setup.log.attempts += 1;
+                if (setup.log.validatePassword($(this).val()))
+                    setup.addLog();
+                else
+                    console.log("whoops");
+            }
+            $(this).val("");
 		}
 	});
 
 	//modal close handler
 	$("#service").on('hidden.bs.modal', function () {
-		
+		console.log("closed");
 	});
 });
 
@@ -65,28 +46,100 @@ const validatePassword = function (pw) {
 	return false;
 }
 
-const setup = function (data) {
-	let passwords = [];
-    for (let o of Object.keys(data)) passwords.push(data[o]);
-    let currPass = 0;
-    let currShape = 0;
-    
-    function getShape()           { return passwords[currPass].shapes[currShape].shape; }
-    function validatePassword(pw) { return pw.toUpperCase() === getShape();             }
-    function nextShape()
-    {
-        currShape += 1;
-        if (currShape === passwords[currPass].shapes.length)
+class Setup {
+    constructor(data){
+        this.data = data;
+        this.passwords = [];
+        for (let o of Object.keys(data)) this.passwords.push(data[o]);
+        this.currPass = 0;
+        this.currShape = 0;
+        this.setModal(this.passwords[this.currPass], instructions_str);
+        this.logging = false;
+        this.response = { pw1 : {}, pw2 : {}, pw3 : {} };
+        this.log = null;
+        nextAnim(this.getShape());
+    }
+    getShape() {
+        return this.passwords[this.currPass].shapes[this.currShape].shape;
+    }
+    validatePassword(pw) {
+        return pw.toUpperCase() === this.getShape();   
+    }
+    addLog() {
+        this.response['pw' + (3-this.passwords.length)] = this.log.toObj();
+        this.nextLog();
+    }
+    nextLog() {
+        if (this.passwords.length === 0) end(true);
+        let index = Math.floor(Math.random()*this.passwords.length);
+        this.log = new Log(this.passwords[index]);
+        this.passwords.splice(index, 1);
+    }
+    nextShape() {
+        this.currShape += 1;
+        if (this.currShape === this.passwords[this.currPass].shapes.length)
         {
-            currPass += 1;
-            currShape = -1;
-            nextShape();
+            this.currPass += 1;
+            if (this.currPass === this.password.length) {
+                this.logging = true;
+                this.nextLog();
+                return;
+            }
+            this.currShape = -1;
+            this.nextShape();
+            this.setModal(this.passwords[this.currPass], instructions_str);
             return;
         }
-        nextAnim(getShape());
+        nextAnim(this.getShape());
     }
-    
-    nextAnim(getShape());
+    setModal(pw, instructions) {
+        $("#service").modal('show');
+        $("#instructions").html(instructions[0] + pw.service + instructions[1]);
+        $("#serviceBar").html(pw.service);
+    }
+}
+/*
+    service: "",
+	allowedAttempts: 0,
+	attempts: 0,
+	givenShapes: [],
+	receivedShapes: [],
+	failed: true,
+	loginTime: 0
+*/
+class Log {
+    constructor(pw){
+        this.givenShapes = pw.shapes;
+        this.pass = "";
+        for (let i of this.givenShapes)
+            this.pass += i.shape;
+        this.service = pw.service;
+        this.receivedShapes = [];
+        this.failed = false;
+        this.time = performance.now();
+        this.loginTime = 0;
+        this.attempts = 0;
+        this.max_attempts = 3;
+        setup.setModal(pw, ["Please enter your password for: ", "."]);
+    }
+    validatePassword(pw) {
+        if (pw.toUpperCase() === this.pass)
+        {
+            this.loginTime = performance.now() - this.time;
+            receivedShapes = pw;
+            return true;
+        }
+        else return false;
+    }
+    toObj() {
+        return {  service         : this.service,
+                  allowedAttempts : this.max_attempts,
+                  attempts        : this.attempts,
+                  givenShapes     : this.givenShapes,
+                  receivedShapes  : this.receivedShapes,
+                  failed          : this.failed,
+                  loginTime       : this.loginTime };
+    }
 }
 
 const end = function end(success) {
@@ -100,27 +153,6 @@ const end = function end(success) {
 	done = true;
 }
 
-/*
-const start = function () {
-	if (currPass > 0) {
-		for (let c of passwords['pw' + currPass].shapes[currShape]) {
-			let element = document.getElementById('_' + c);
-			element.classList.remove("active");
-		}
-	}
-
-	currPass += 1;
-	if (currPass === 4) {
-		end(true);
-		return;
-	}
-	currShape = -1;
-    $("#service").modal('show');
-	$("#instructions").html(instructions[0] + passwords['pw' + currPass].service + instructions[1]);
-	nextShape();
-}
-*/
-
 //shape : string
 const nextAnim = function(shape)
 {
@@ -128,26 +160,24 @@ const nextAnim = function(shape)
     let path = convertCoordsToSvg(coords);
     setPath(path);
     var path1 = anime.path('#motionPath path');
-
-    if (currShape > 0) {
-        for (let c of shape) {
-            let element = document.getElementById('_' + c);
-            element.classList.remove("active");
-        }
-    }
-
-    for (let c of shape) {
-        let element = document.getElementById('_' + c);
-        element.classList.add("active");
-    }
+    const duration = 200 * shape.split('').length;
+    const delay = 1000;
 
     var motionPath = anime({
         targets: '#motionPath .el',
+        //delay,
         translateX: path1('x'),
         translateY: path1('y'),
         rotate: path1('angle'),
         easing: 'linear',
-        duration: 400 * shape.split('').length,
+        //duration,
+        /*update: function (anim) {
+            if (Math.ceil(anim.currentTime) === duration + delay) {
+                anim.pause();
+                setTimeout(() =>
+                    anim.restart(), delay);
+            }
+        },*/
         loop: true
     });
 }
