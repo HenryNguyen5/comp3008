@@ -5,7 +5,8 @@ import fs = require('fs');
 import path = require('path');
 
 connectToDb();
-console.log(createPasswordObj());
+
+console.log(JSON.stringify(createPasswordObj(), null, 2));
 
 const router = express.Router();
 import wrap = require('express-async-wrap');
