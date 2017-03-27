@@ -2,8 +2,8 @@ import express = require('express');
 import path = require('path');
 
 const app = express();
-import { router as routes }  from './routes/index';
-import * as bp  from 'body-parser';
+import { router as routes } from './routes/index';
+import * as bp from 'body-parser';
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -25,7 +25,7 @@ if (app.get('env') === 'development') {
 	app.use(function (err, req, res, next) {
 		res.status(err.status || 500);
 		res.render('error', {
-			message: err.message,	
+			message: err.message,
 			error: err
 		});
 	});

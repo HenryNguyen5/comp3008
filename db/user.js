@@ -16,6 +16,7 @@ class User extends camo_1.Document {
     constructor() {
         super();
         this.name = String;
+        this.results = [PasswordResults];
     }
     static get(u) {
         return __awaiter(this, void 0, void 0, function* () {
