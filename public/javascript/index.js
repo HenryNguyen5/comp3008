@@ -1,15 +1,4 @@
 const max_attempts = 3;
-let attempts = 0;
-let givenShapes = [];
-let receivedShapes = [];
-let service = "";
-let failed = false;
-let loginTime = 0;
-let time = 0;
-let currPass = null;
-let passwords = null;
-let currShape = null;
-let done = false;
 
 const response_format = {
 	pw1: {
@@ -41,8 +30,6 @@ const response_format = {
 	}
 }
 
-let response = response_format;
-
 const instructions = ["Here is your password for: ", ". Please input \
 	your password as shown by the animation."]
 
@@ -57,103 +44,69 @@ $(function () {
 	//enter key handler
 	$("#pwBox").keypress(function (ev) {
 		if (ev.which === 13) {
-			response['pw' + currPass].receivedShapes.push($(this).val());
-			if (validatePassword($(this).val())) {
-				nextShape();
-                nextAnim();
+			if (setup.validatePassword($(this).val())) {
+                setup.nextShape();
 			} else {
-				attempts += 1;
-				$(this).val("");
-				if (attempts === max_attempts) {
-					end(false);
-				}
+                console.log("you fucked up");
 			}
+			$(this).val("");
 		}
 	});
 
 	//modal close handler
 	$("#service").on('hidden.bs.modal', function () {
-		nextAnim();
+		
 	});
 });
 
-const nextAnim = function()
-{
-    if (done) return;
-
-    time = performance.now();
-
-    response['pw' + currPass].service = passwords['pw' + currPass].service
-    response['pw' + currPass].givenShapes = passwords['pw' + currPass].shapes
-    response['pw' + currPass].allowedAttempts = max_attempts;
-
-    let pw = passwords['pw' + currPass].shapes;
-    let k = shapesToCoords(pw);
-    let path = convertCoordsToSvg(k[currShape]);
-    setPath(path);
-    var path1 = anime.path('#motionPath path');
-
-    if (currShape > 0) {
-        for (let c of pw[currShape - 1]) {
-            let element = document.getElementById('_' + c);
-            element.classList.remove("active");
-        }
-    }
-
-    for (let c of pw[currShape]) {
-        let element = document.getElementById('_' + c);
-        element.classList.add("active");
-    }
-
-    console.log(passwords['pw' + currPass].shapes[currShape], passwords['pw' + currPass].shapes[currShape].split('').length);
-
-    var motionPath = anime({
-        targets: '#motionPath .el',
-        translateX: path1('x'),
-        translateY: path1('y'),
-        rotate: path1('angle'),
-        easing: 'linear',
-        duration: 400 * passwords['pw' + currPass].shapes[currShape].split('').length,
-        loop: true
-        //complete: (res) => res.restart()
-    });
-}
-
 const validatePassword = function (pw) {
-	if (pw.toUpperCase() === passwords['pw' + currPass].shapes[currShape])
+	if (pw.toUpperCase() === setup.getShape())
 		return true;
 	return false;
 }
 
 const setup = function (data) {
-	console.log(data);
-	passwords = data;
-	currPass = 0;
-	start();
+	let passwords = [];
+    for (let o of Object.keys(data)) passwords.push(data[o]);
+    let currPass = 0;
+    let currShape = 0;
+    
+    function getShape()           { return passwords[currPass].shapes[currShape].shape; }
+    function validatePassword(pw) { return pw.toUpperCase() === getShape();             }
+    function nextShape()
+    {
+        currShape += 1;
+        if (currShape === passwords[currPass].shapes.length)
+        {
+            currPass += 1;
+            currShape = -1;
+            nextShape();
+            return;
+        }
+        nextAnim(getShape());
+    }
+    
+    nextAnim(getShape());
 }
 
-const nextShape = function () {
-	//finished current password
-	if (currShape + 1 === passwords['pw' + currPass].shapes.length) {
-		response['pw' + currPass].loginTime = performance.now() - time;
-		response['pw' + currPass].attempts = response['pw' + currPass].receivedShapes.length - response['pw' + currPass].givenShapes.length;
-		time = 0;
-		start();
-		return;
-	}
+const end = function end(success) {
 
-	attempts = 0;
-	$("#pwBox").val("");
-	currShape += 1;
+	$("#service").modal('show');
+	$("#instructions").html("You're done! Thanks for participating");
+
+	//send reponse to the server here
+	console.log(response);
+
+	done = true;
 }
 
+/*
 const start = function () {
 	if (currPass > 0) {
 		for (let c of passwords['pw' + currPass].shapes[currShape]) {
 			let element = document.getElementById('_' + c);
 			element.classList.remove("active");
 		}
-		response['pw' + currPass].failed = false;
 	}
 
 	currPass += 1;
@@ -165,6 +118,38 @@ const start = function () {
     $("#service").modal('show');
 	$("#instructions").html(instructions[0] + passwords['pw' + currPass].service + instructions[1]);
 	nextShape();
+}
+*/
+
+//shape : string
+const nextAnim = function(shape)
+{
+    let coords = getShapeCoords(shape);
+    let path = convertCoordsToSvg(coords);
+    setPath(path);
+    var path1 = anime.path('#motionPath path');
+
+    if (currShape > 0) {
+        for (let c of shape) {
+            let element = document.getElementById('_' + c);
+            element.classList.remove("active");
+        }
+    }
+
+    for (let c of shape) {
+        let element = document.getElementById('_' + c);
+        element.classList.add("active");
+    }
+
+    var motionPath = anime({
+        targets: '#motionPath .el',
+        translateX: path1('x'),
+        translateY: path1('y'),
+        rotate: path1('angle'),
+        easing: 'linear',
+        duration: 400 * shape.split('').length,
+        loop: true
+    });
 }
 
 const setPath = function setPath(path) {
@@ -215,14 +200,3 @@ const getCoordinates = function getCoordinates(id) {
 		y: Math.floor(middleY)
 	};
 };
-
-const end = function end(success) {
-
-	$("#service").modal('show');
-	$("#instructions").html("You're done! Thanks for participating");
-
-	//send reponse to the server here
-	console.log(response);
-
-	done = true;
-}
