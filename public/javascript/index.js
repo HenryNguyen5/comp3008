@@ -107,8 +107,7 @@ $(function () {
 			rotate: path1('angle'),
 			easing: 'linear',
 			duration: 400 * passwords['pw' + currPass].shapes[currShape].split('').length,
-            complete: () => this.restart()
-            
+            complete: () => motionPath.restart()
 		});
 	});
 });
