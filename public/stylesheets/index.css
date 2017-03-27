@@ -28,9 +28,9 @@ svg
     height: 100%;
 }
 #theSquare{
-
-  border: solid 21px #f0f;
-  width: 25px;
-  height: 25px;
-  position: absolute;
+  width: 0; 
+  height: 0; 
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  border-left: 40px solid #f0f;
 }

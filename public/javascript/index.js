@@ -106,8 +106,9 @@ $(function () {
 			translateY: path1('y'),
 			rotate: path1('angle'),
 			easing: 'linear',
-			duration: 200 * passwords['pw' + currPass].shapes[currShape].split('').length,
-			loop: true
+			duration: 400 * passwords['pw' + currPass].shapes[currShape].split('').length,
+            complete: () => this.restart()
+            
 		});
 	});
 });
