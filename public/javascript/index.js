@@ -1,4 +1,4 @@
-/* global $ */
+/* global anime */
 let setup;
 
 
