@@ -15,9 +15,15 @@ block content
   .row
     .col-md-12
       .input-group
-        input.form-control(type="text", placeholder="Enter your password")#pwBox
-          
-  #service.modal.fade(tabindex='-1', role='dialog', aria-labelledby='uploadFileModal', aria-hidden='true')
+        input.form-control(type="text", placeholder="Enter your password" onkeydown="uniCharCode(event)" )#pwBox
+  .row
+    .col-md-4
+      p.shape.text-center#shape1 ▱
+    .col-md-4
+      p.shape.text-center#shape2 ▲
+    .col-md-4 
+      p.shape.text-center#shape3 ━ 
+  #service.modal(role='dialog' data-animation="false")
     .modal-dialog
       .modal-content
         .modal-header
@@ -25,4 +31,4 @@ block content
         .modal-body
           p#instructions Instructions
         .modal-footer
-          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button', data-dismiss='modal' data-animation="false") Close
