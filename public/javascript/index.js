@@ -53,7 +53,6 @@ $(function() {
     });
 });
 
-
 class Setup {
     constructor(data) {
         this.data = data;
@@ -84,11 +83,10 @@ class Setup {
         this.passwords.splice(index, 1);
     }
     nextShape() {
-
         this.currShape += 1;
         if (this.currShape === this.passwords[this.currPass].shapes.length) {
             this.currPass += 1;
-            if (this.currPass === this.password.length) {
+            if (this.currPass === this.passwords.length) {
                 this.logging = true;
                 this.nextLog();
                 return;
@@ -106,15 +104,7 @@ class Setup {
         $("#serviceBar").html(pw.service);
     }
 }
-/*
-    service: "",
-	allowedAttempts: 0,
-	attempts: 0,
-	givenShapes: [],
-	receivedShapes: [],
-	failed: true,
-	loginTime: 0
-*/
+
 class Log {
     constructor(pw) {
         this.givenShapes = pw.shapes;
@@ -128,12 +118,12 @@ class Log {
         this.loginTime = 0;
         this.attempts = 0;
         this.max_attempts = 3;
-        setup.setModal(pw, ["Please enter your password for: ", "."]);
+        setup.setModal(pw, ["Please enter your full password for: ", "."]);
     }
     validatePassword(pw) {
         if (pw.toUpperCase() === this.pass) {
             this.loginTime = performance.now() - this.time;
-            receivedShapes = pw;
+            this.receivedShapes = pw;
             return true;
         } else return false;
     }
@@ -151,17 +141,20 @@ class Log {
 }
 
 const end = function end(success) {
-
+    console.log(success);
+    
     $("#service").modal('show');
     $("#instructions").html("You're done! Thanks for participating");
 
     //send reponse to the server here
-    console.log(response);
-
-    done = true;
+    
 }
 
-//shape : string
+/**
+ * Loads the arrow animation
+ * 
+ * @param {String} shape 
+ */
 const nextAnim = function(shape) {
     let coords = getShapeCoords(shape);
     let path = convertCoordsToSvg(coords);
@@ -178,13 +171,6 @@ const nextAnim = function(shape) {
         translateY: path1('y'),
         rotate: path1('angle'),
         duration,
-        /*update: function (anim) {
-            if (Math.ceil(anim.currentTime) === duration + delay) {
-                anim.pause();
-                setTimeout(() =>
-                    anim.restart(), delay);
-            }
-        },*/
         loop: true
     });
 }
