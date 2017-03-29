@@ -36,7 +36,7 @@ function createPwdScheme(serviceIdx): PwdScheme {
 }
 
 const createRandomShapes = function createRandomShapes(): Array<Shapes> {
-    const numOfShapes = randomInteger(2, 3);
+    const numOfShapes = 2;
 
     const shapeArr: Array<Shapes> = [];
     for (let i = 0; i < numOfShapes; i++) {

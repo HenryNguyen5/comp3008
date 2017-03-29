@@ -10,10 +10,12 @@ const keyboard = [
 	["Z", "X", "C", "V", "B", "N", "M", ",", ".", "/"]
 ];
 
-const width = 5; //columns
-const height = 4; //rows
-const min_rect_size = 3; //min size of a rectangle
-const min_line_size = 3; //min size of a line
+const width = keyboard[0].length; //columns
+const height = keyboard.length; //rows
+const min_rect_size = 2; //min size of a rectangle
+const max_rect_size = 4; //max size of a rectangle
+const min_line_size = 4; //min size of a line
+const max_line_Size = 6; //max size of a line
 
 /*
 	returns a string of characters forming a rectangle
@@ -24,9 +26,10 @@ const generate_rect = function generate_rect() {
 	const start_x = rand_int(0, width - min_rect_size);
 	const start_y = rand_int(0, height - min_rect_size);
 	//bottom right corner of rectangle
-	const end_x = rand_int(start_x + min_rect_size, width);
-	const end_y = rand_int(start_y + min_rect_size, height);
-
+	let end_x = rand_int(start_x + min_rect_size, start_x + max_rect_size);
+	end_x > width-1 ? end_x = width-1 : end_x; //
+	let end_y = rand_int(start_y + min_rect_size, height);
+	
 	//top of rectangle
 	for (let x = start_x; x <= end_x; x++) {
 		str += keyboard[start_y][x];

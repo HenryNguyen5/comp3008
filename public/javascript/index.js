@@ -9,7 +9,7 @@ $(function() {
     $.ajax({
         method: "GET",
         url: '/getPassword',
-        success: (data) => { setup = new Setup(data) },
+        success: (data) => { setup = new Setup(data); },
         dataType: 'json'
     });
 
@@ -36,9 +36,22 @@ $(function() {
             } else {
                 setup.log.attempts += 1;
                 if (setup.log.validatePassword($(this).val())) {
+                    setTruthKeyShadows(false);
+                    setTimeout(function() {
+                        clearKeyShadows();
+                    }, 750);
+
                     setup.addLog();
                 } else {
-                    console.log("whoops");
+                    setTruthKeyShadows(true);
+                    setTimeout(function() {
+                        clearKeyShadows();
+                    }, 750);
+
+                    if (setup.log.attempts > setup.log.max_attempts) {
+                        setup.log.failed = true;
+                        setup.addLog();
+                    }
                 }
 
             }
@@ -57,7 +70,6 @@ class Setup {
     constructor(data) {
         this.data = data;
         this.passwords = [];
-        this.backup = [];
         for (let o of Object.keys(data)) this.passwords.push(data[o]);
         this.currPass = 0;
         this.currShape = 0;
@@ -65,7 +77,7 @@ class Setup {
         this.logging = false;
         this.response = { pw1: {}, pw2: {}, pw3: {} };
         this.log = null;
-        this.logCount = 2;
+        setShapes(this.passwords, this.currPass);
         nextAnim(this.getShape());
     }
     getShape() {
@@ -79,27 +91,24 @@ class Setup {
         this.nextLog();
     }
     nextLog() {
-        if (this.passwords.length === 0) {
-            this.logCount -= 1;
-            if (this.logCount == 0)
-                end(true);
-            else {
-                this.passwords = this.backup;
-                this.nextLog();
-                return;
-            }
+        clearKeyShadows();
+        if (this.passwords.length === 0)
+        {
+            end(true);
+            return;
         }
         let index = Math.floor(Math.random() * this.passwords.length);
         this.log = new Log(this.passwords[index]);
-        this.backup.push(this.passwords.splice(index, 1));
+        this.passwords.splice(index, 1);
     }
     nextShape() {
         this.currShape += 1;
         if (this.currShape === this.passwords[this.currPass].shapes.length) {
             this.currPass += 1;
+            setShapes(this.passwords, this.currPass);
             if (this.currPass === this.passwords.length) {
                 this.logging = true;
-                motionPath.pause();
+                $('#motionPath').remove();
                 this.nextLog();
                 return;
             }
@@ -159,7 +168,19 @@ const end = function end(success) {
     $("#instructions").html("You're done! Thanks for participating");
 
     //send reponse to the server here
-    
+    $.post("/testResults", JSON.stringify(setup.response, null, 2));
+}
+
+const setShapes = function(pw, cp)
+{
+    if (pw[cp] === undefined) return;
+    for (let i=0; i < 2; i++)
+    {
+        if (pw[cp].shapes[i].type === 'rect')
+            $('#shape'+i).html('▱');
+        else
+            $('#shape'+i).html('━');
+    }
 }
 
 /**
@@ -241,7 +262,6 @@ let keyArr = []
 function uniCharCode(event) {
     //const keyPressProperties = ["-webkit-box-shadow", "-moz-box-shadow", "box-shadow"];
     const keyPressValue = " 0px 0px 42px 8px rgba(136, 209, 153, 0.77)";
-    console.log(event.key)
     try {
         if (event.key === 'Backspace') {
             let keyToRm = keyArr.pop();
@@ -257,13 +277,13 @@ function uniCharCode(event) {
         }
 
     } catch (e) {
-        console.log(e)
+        //console.log(e)
     }
 }
 
 function setTruthKeyShadows(err) {
     const keys = document.querySelectorAll(".row .keys .letter");
-    console.log(keys)
+    //console.log(keys)
     for (let element of keyArr) {
         for (let x of keyPressProperties) {
             element.style[x] = (err ? keyErr : keySucc);
@@ -273,7 +293,7 @@ function setTruthKeyShadows(err) {
 
 function clearKeyShadows() {
     const keys = document.querySelectorAll(".row .keys .letter");
-    console.log(keys)
+    //console.log(keys)
     for (let element of keyArr) {
         for (let x of keyPressProperties) {
             element.style[x] = null;

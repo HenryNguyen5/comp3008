@@ -27,9 +27,8 @@ svg {
     height: 100%;
 }
 
-#shape1,
-#shape2,
-#shape3 {
+#shape0,
+#shape1 {
     border-color: white;
     font-size: 4em;
     color: white;
