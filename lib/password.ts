@@ -37,13 +37,13 @@ function createPwdScheme(): PwdScheme {
 }
 
 const createRandomShapes = function createRandomShapes(): Array<Shapes> {
-    const numOfShapes = randomInteger(2, 4);
+    const numOfShapes = randomInteger(2, 3);
 
     const shapeArr: Array<Shapes> = [];
     for (let i = 0; i < numOfShapes; i++) {
-        console.log(passGens[randomArrayElement(shapes)].name.split('_')[1]);
-
-        const randomShape = passGens[randomArrayElement(shapes)];
+        //console.log(passGens[randomArrayElement(shapes)].name.split('_')[1]);
+        let shapesCpy = Object.create(shapes);
+        const randomShape = passGens[randomArrayElement(shapesCpy)];
         //console.log(`Shape selected: ${randomShape}`);
         shapeArr.push({ type: randomShape.name.split('_')[1], shape: randomShape() });
     }
@@ -52,7 +52,13 @@ const createRandomShapes = function createRandomShapes(): Array<Shapes> {
 
 const randomArrayElement = function (arr: Array<any>): any {
     const randomIdx = randomInteger(0, arr.length - 1);
-    return arr[randomIdx];
+    let retEle = arr[randomIdx];
+    console.log(arr)
+
+    arr.splice(randomIdx, 1);
+    console.log(retEle);
+    console.log(arr)
+    return retEle;
 };
 
 const randomInteger = function (min: number, max: number): number {
