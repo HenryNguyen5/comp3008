@@ -1,6 +1,6 @@
 /* global anime */
 let setup;
-
+let motionPath;
 
 const instructions_str = ["Here is your password for: ", ". Please input \
 	your password as shown by the animation."]
@@ -99,6 +99,7 @@ class Setup {
             this.currPass += 1;
             if (this.currPass === this.passwords.length) {
                 this.logging = true;
+                motionPath.pause();
                 this.nextLog();
                 return;
             }
@@ -153,7 +154,7 @@ class Log {
 
 const end = function end(success) {
     console.log(success);
-    
+    console.log(setup.response);
     $("#service").modal('show');
     $("#instructions").html("You're done! Thanks for participating");
 
@@ -174,7 +175,7 @@ const nextAnim = function(shape) {
     const duration = 300 * shape.split('').length;
     const delay = 300;
 
-    var motionPath = anime({
+    motionPath = anime({
         targets: '#motionPath .el',
         delay,
         easing: 'easeInOutQuad',
@@ -189,14 +190,6 @@ const nextAnim = function(shape) {
 const setPath = function setPath(path) {
     let e = document.getElementById('pwPath');
     e.setAttribute('d', path);
-}
-
-const shapesToCoords = function shapesToCoords(data) {
-    let retArr = [];
-    for (let shape of data) {
-        retArr.push(getShapeCoords(shape));
-    }
-    return retArr;
 }
 
 const convertCoordsToSvg = function convertCoordsToSvg(coords) {
@@ -289,7 +282,7 @@ function clearKeyShadows() {
 
     keyArr.length = 0;
 }
-$(document).keyup(function(e) {
+$(document).keyup(function() {
     $('.modal').modal('hide');
     document.getElementById('pwBox').focus();
 });
