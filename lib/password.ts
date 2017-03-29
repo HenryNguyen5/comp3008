@@ -1,6 +1,6 @@
 //Interface stores the 3 passwords for the user, and what services they're for
 import * as passGens from './generator';
-const services = ['Email', 'Facebook', 'Bank', 'Amazon', 'eBay'];
+const services = ['Email', 'Facebook', 'Bank'];
 const shapes = Object.keys(passGens);
 
 interface Shapes {
@@ -21,16 +21,15 @@ interface PasswordObj {
 
 function createPasswordObj(): PasswordObj {
     return {
-        pw1: createPwdScheme(),
-        pw2: createPwdScheme(),
-        pw3: createPwdScheme()
+        pw1: createPwdScheme(0),
+        pw2: createPwdScheme(1),
+        pw3: createPwdScheme(2)
     };
 }
 
-function createPwdScheme(): PwdScheme {
-    const randomService = randomArrayElement(services);
+function createPwdScheme(serviceIdx): PwdScheme {
     return {
-        service: randomService,
+        service: services[serviceIdx],
         shapes: createRandomShapes(),
         attempts: 3
     };
@@ -52,13 +51,7 @@ const createRandomShapes = function createRandomShapes(): Array<Shapes> {
 
 const randomArrayElement = function (arr: Array<any>): any {
     const randomIdx = randomInteger(0, arr.length - 1);
-    let retEle = arr[randomIdx];
-    console.log(arr)
-
-    arr.splice(randomIdx, 1);
-    console.log(retEle);
-    console.log(arr)
-    return retEle;
+    return arr[randomIdx];
 };
 
 const randomInteger = function (min: number, max: number): number {
