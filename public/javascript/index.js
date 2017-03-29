@@ -57,6 +57,7 @@ class Setup {
     constructor(data) {
         this.data = data;
         this.passwords = [];
+        this.backup = [];
         for (let o of Object.keys(data)) this.passwords.push(data[o]);
         this.currPass = 0;
         this.currShape = 0;
@@ -64,6 +65,7 @@ class Setup {
         this.logging = false;
         this.response = { pw1: {}, pw2: {}, pw3: {} };
         this.log = null;
+        this.logCount = 2;
         nextAnim(this.getShape());
     }
     getShape() {
@@ -77,10 +79,19 @@ class Setup {
         this.nextLog();
     }
     nextLog() {
-        if (this.passwords.length === 0) end(true);
+        if (this.passwords.length === 0) {
+            this.logCount -= 1;
+            if (this.logCount == 0)
+                end(true);
+            else {
+                this.passwords = this.backup;
+                this.nextLog();
+                return;
+            }
+        }
         let index = Math.floor(Math.random() * this.passwords.length);
         this.log = new Log(this.passwords[index]);
-        this.passwords.splice(index, 1);
+        this.backup.push(this.passwords.splice(index, 1));
     }
     nextShape() {
         this.currShape += 1;
