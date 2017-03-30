@@ -169,6 +169,11 @@ const end = function end(success) {
     $.post("/testResults", JSON.stringify(setup.response, null, 2));
 }
 
+/**
+ * sets the shapes underneath the input bar
+ * @param {Object} pw 
+ * @param {Integer} cp 
+ */
 const setShapes = function(pw, cp)
 {
     if (pw[cp] === undefined) return;
