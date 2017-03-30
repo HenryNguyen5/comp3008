@@ -1,6 +1,8 @@
 /* global anime */
 let setup;
 
+const instructions_start = "Placeholder";
+
 const instructions_str = ["Here is your password for: ", ". Please input \
 	your password as shown by the animation."]
 
