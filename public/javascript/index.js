@@ -1,6 +1,5 @@
 /* global anime */
 let setup;
-let motionPath;
 
 const instructions_str = ["Here is your password for: ", ". Please input \
 	your password as shown by the animation."]
@@ -59,11 +58,6 @@ $(function() {
             $(this).val("");
         }
     });
-
-    //modal close handler
-    $("#service").on('hidden.bs.modal', function() {
-        console.log("closed");
-    });
 });
 
 class Setup {
@@ -71,11 +65,12 @@ class Setup {
         this.data = data;
         this.passwords = [];
         for (let o of Object.keys(data)) this.passwords.push(data[o]);
+        for (let p of this.passwords) p.logged = false;
         this.currPass = 0;
         this.currShape = 0;
         this.setModal(this.passwords[this.currPass], instructions_str);
         this.logging = false;
-        this.response = { pw1: {}, pw2: {}, pw3: {} };
+        this.response = [];
         this.log = null;
         setShapes(this.passwords, this.currPass);
         nextAnim(this.getShape());
@@ -87,7 +82,7 @@ class Setup {
         return pw.toUpperCase() === this.getShape();
     }
     addLog() {
-        this.response['pw' + (3 - this.passwords.length)] = this.log.toObj();
+        this.response.push(this.log.toObj());
         this.nextLog();
     }
     nextLog() {
@@ -99,7 +94,10 @@ class Setup {
         }
         let index = Math.floor(Math.random() * this.passwords.length);
         this.log = new Log(this.passwords[index]);
-        this.passwords.splice(index, 1);
+        if (this.passwords[index].logged === true)
+            this.passwords.splice(index, 1);
+        else
+            this.passwords[index].logged = true;
     }
     nextShape() {
         this.currShape += 1;
@@ -196,7 +194,7 @@ const nextAnim = function(shape) {
     const duration = 300 * shape.split('').length;
     const delay = 300;
 
-    motionPath = anime({
+    var motionPath = anime({
         targets: '#motionPath .el',
         delay,
         easing: 'easeInOutQuad',
