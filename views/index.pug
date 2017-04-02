@@ -21,7 +21,7 @@ block content
       p.shape.text-center#shape0
     .col-md-6 
       p.shape.text-center#shape1 
-  #service.modal(role='dialog' data-animation="false")
+  #service.modal(role='dialog'  data-focus='true' data-show='true' data-animation="false")
     .modal-dialog
       .modal-content
         .modal-header
@@ -29,4 +29,4 @@ block content
         .modal-body
           p#instructions Instructions
         .modal-footer
-          button.btn.btn-primary(type='button', data-dismiss='modal' data-animation="false") Close
+          button#closeModal.btn.btn-primary(type='button' autofocus data-dismiss='modal') Close

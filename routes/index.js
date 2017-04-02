@@ -14,7 +14,6 @@ const password_1 = require("../lib/password");
 const fs = require("fs");
 const path = require("path");
 user_1.connectToDb();
-console.log(JSON.stringify(password_1.createPasswordObj(), null, 2));
 const router = express.Router();
 exports.router = router;
 const wrap = require("express-async-wrap");
@@ -31,5 +30,6 @@ router.get('/getPassword', (req, res) => __awaiter(this, void 0, void 0, functio
 }));
 router.post('/testResults', wrap((req, res) => __awaiter(this, void 0, void 0, function* () {
     let results = req.body;
+    console.log(results);
 })));
 //# sourceMappingURL=index.js.map

@@ -6,7 +6,6 @@ import path = require('path');
 
 connectToDb();
 
-console.log(JSON.stringify(createPasswordObj(), null, 2));
 
 const router = express.Router();
 import wrap = require('express-async-wrap');
@@ -28,7 +27,7 @@ router.get('/getPassword', async (req: express.Request, res: express.Response) =
 
 router.post('/testResults', wrap(async (req: express.Request, res: express.Response) => {
     let results = req.body;
-
+    console.log(results)
 }));
 
 
