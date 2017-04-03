@@ -1,5 +1,5 @@
 /* global anime */
-let setup;
+let setup, data;
 let modalState = true;
 
 const instructions_start = "Placeholder";
@@ -11,7 +11,7 @@ $(function() {
     $.ajax({
         method: "GET",
         url: '/getPassword',
-        success: (data) => { setup = new Setup(data); },
+        success: (d) => { setup = new Setup(d); data = d; },
         dataType: 'json'
     });
 
@@ -31,9 +31,14 @@ $(function() {
                             clearKeyShadows();
                         }, 600);
                         setup.nextShape();
+                        $(this).val("");
+                        return;
+                    } else {
+                        setup = new Setup(data);
+                        $(this).val("");
+                        return;
                     }
-                    $(this).val("");
-                    return;
+                   
                 }
             } catch (e) { console.log("to be expected"); }
             if (!setup.logging) {
