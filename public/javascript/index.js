@@ -34,6 +34,10 @@ $(function() {
                         $(this).val("");
                         return;
                     } else {
+                        setTruthKeyShadows(true);
+                        setTimeout(function() {
+                            clearKeyShadows();
+                        }, 600);
                         setup = new Setup(data);
                         $(this).val("");
                         return;
