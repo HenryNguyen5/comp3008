@@ -21,7 +21,8 @@ $(function() {
     });
 
     $("#goBack").click(() => {
-        setup = new Setup(data);
+        setup.currShape = -1;
+        setup.nextShape();
         $("#motionPath").toggle();
         $("#pwBox").focus();
     });
@@ -228,11 +229,17 @@ class Log {
 
 const end = function end() {
     console.log(setup.response);
-    $("#service").modal('show');
-    $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: <a>https://hotsoft.carleton.ca/comp3008limesurvey/index.php/survey/index/sid/476963/newtest/Y/lang/en<\a>");
-
     //send reponse to the server here
-    $.post("/testResults", JSON.stringify(setup.response, null, 2));
+    $.ajax({
+        type: "POST",
+        url: "/testResults",
+        data: JSON.stringify(setup.response),
+        contentType: "application/json"
+    });
+    $("#service").modal('show');
+    $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: <a href=\"https://hotsoft.carleton.ca/comp3008limesurvey/index.php/survey/index/sid/476963/newtest/Y/lang/en\"<\a>");
+
+
 }
 
 /**

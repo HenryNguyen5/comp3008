@@ -31,5 +31,6 @@ router.get('/getPassword', (req, res) => __awaiter(this, void 0, void 0, functio
 router.post('/testResults', wrap((req, res) => __awaiter(this, void 0, void 0, function* () {
     let results = req.body;
     console.log(results);
+    fs.writeFile(`${path.join(__dirname, `../db/dbstore/result_${Date.now()}.json`)}`, JSON.stringify(results, null, 2));
 })));
 //# sourceMappingURL=index.js.map

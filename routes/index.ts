@@ -27,7 +27,8 @@ router.get('/getPassword', async (req: express.Request, res: express.Response) =
 
 router.post('/testResults', wrap(async (req: express.Request, res: express.Response) => {
     let results = req.body;
-    console.log(results)
+    console.log(results);
+    fs.writeFile(`${path.join(__dirname, `../db/dbstore/result_${Date.now()}.json`)}`, JSON.stringify(results, null, 2));
 }));
 
 
