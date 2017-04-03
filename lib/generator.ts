@@ -12,9 +12,9 @@ const keyboard = [
 
 const width = keyboard[0].length; //columns
 const height = keyboard.length; //rows
-const min_rect_size = 2; //min size of a rectangle
+const min_rect_size = 1; //min size of a rectangle -1?
 const max_rect_size = 4; //max size of a rectangle
-const min_line_size = 4; //min size of a line
+const min_line_size = 2; //min size of a line
 const max_line_Size = 6; //max size of a line
 
 /*
@@ -50,6 +50,32 @@ const generate_rect = function generate_rect() {
 		str += keyboard[y][start_x];
 	}
 
+	let size_x = end_x - start_x+1;
+	let size_y = end_y - start_y+1;
+
+	let r = Math.random();
+	let index;
+	//choose corner
+	if (r < 0.25) {
+		index = 0;
+	}
+	else if (r < 0.5) {
+		index = size_x;
+	}
+	else if (r < 0.75) {
+		index = size_x; + size_y;
+	}
+	else {
+		index = size_x*2 + size_y;
+	}
+
+	let arr = str.split('');
+	let end = arr.splice(index, arr.length-index+1);
+	arr = end.concat(arr);
+	str = arr.join('');
+
+	//reverse
+	if (Math.random() < 0.5) str = str.split('').reverse().join('');
 
 	return str;
 };
@@ -82,8 +108,19 @@ const generate_line = function generate_line() {
 
 	}
 
+	if (Math.random() < 0.5) str = str.split('').reverse().join('');
+
 	return str;
 };
+
+/*
+	returns a string of characters forming a triangle
+*/
+const generate_triangle = function generate_triangle() {
+	let str = "";
+
+	
+}
 
 /*
 	@param min : minimum value
