@@ -21,8 +21,7 @@ $(function() {
     });
 
     $("#goBack").click(() => {
-        setup.currShape = -1;
-        setup.nextShape();
+        setup = new Setup(data);
         $("#motionPath").toggle();
         $("#pwBox").focus();
     });
@@ -202,13 +201,13 @@ class Log {
         this.time = performance.now();
         this.loginTime = 0;
         this.attempts = 0;
-        this.max_attempts = 3;
+        this.max_attempts = 2;
         setup.setModal(pw, 'log');
     }
     validatePassword(pw) {
+        this.receivedShapes.push(pw);
         if (pw.toUpperCase() === this.pass) {
             this.loginTime = performance.now() - this.time;
-            this.receivedShapes = pw;
             return true;
         } else {
             return false;
@@ -256,8 +255,9 @@ const setShapes = function(pw, cp, flag) {
     for (let i = 0; i < 2; i++) {
         if (pw[cp].shapes[i].type === 'rect')
             $('#shape' + i).html("Starts with: " + pw[cp].shapes[i].shape[0] + '<br>▱');
-        else
+        else if (pw[cp].shapes[i].type == 'line')
             $('#shape' + i).html("Starts with: " + pw[cp].shapes[i].shape[0] + '<br>━');
+        else $('#shape' + i).html("Starts with: " + pw[cp].shapes[i].shape[0] + '<br>▲');
     }
 }
 
