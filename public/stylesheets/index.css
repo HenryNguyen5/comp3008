@@ -26,13 +26,15 @@ svg {
     width: 100%;
     height: 100%;
 }
+
 #serviceBar {
     font-size: 2.5em;
 }
+
 #shape0,
 #shape1 {
     border-color: white;
-    font-size: 4em;
+    font-size: 2em;
     color: white;
 }
 

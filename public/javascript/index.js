@@ -2,20 +2,21 @@
 let setup, data;
 let modalState = true;
 
-const instructions_start = "Placeholder";
 
-const instructions_str = ["Here is your password for: ", ". Please input \
-	your password as shown by the animation."]
 
 $(function() {
     $.ajax({
         method: "GET",
         url: '/getPassword',
-        success: (d) => { setup = new Setup(d); data = d; },
+        success: (d) => {
+            setup = new Setup(d);
+            data = d;
+        },
         dataType: 'json'
     });
 
     $("#service").on('hidden.bs.modal', function() {
+        $("#pwBox").focus();
         modalState = false;
     })
 
@@ -39,10 +40,11 @@ $(function() {
                             clearKeyShadows();
                         }, 600);
                         setup = new Setup(data);
+                        $("#motionPath").toggle();
                         $(this).val("");
                         return;
                     }
-                   
+
                 }
             } catch (e) { console.log("to be expected"); }
             if (!setup.logging) {
@@ -94,13 +96,13 @@ class Setup {
         this.data = data;
         this.passwords = [];
         for (let o of Object.keys(data)) this.passwords.push(data[o]);
-        for (let p of this.passwords) { 
+        for (let p of this.passwords) {
             p.logged = false;
             p.verified = false;
         }
         this.currPass = 0;
         this.currShape = 0;
-        this.setModal(this.passwords[this.currPass], instructions_str);
+        this.setModal(this.passwords[this.currPass]);
         this.logging = false;
         this.response = [];
         this.log = null;
@@ -115,7 +117,7 @@ class Setup {
     }
     validateCompletePassword(pw) {
         let str = "";
-        for (let i=0; i < this.passwords[this.currPass].shapes.length; i++)
+        for (let i = 0; i < this.passwords[this.currPass].shapes.length; i++)
             str += this.passwords[this.currPass].shapes[i].shape;
         return pw.toUpperCase() === str;
     }
@@ -126,7 +128,7 @@ class Setup {
     nextLog() {
         clearKeyShadows();
         if (this.passwords.length === 0) {
-            end(true);
+            end();
             return;
         }
         let index = Math.floor(Math.random() * this.passwords.length);
@@ -143,8 +145,8 @@ class Setup {
                 this.currShape -= 1;
                 this.passwords[this.currPass].verified = true;
                 $("#motionPath").toggle();
-                setShapes(0,0, false);
-                this.setModal(this.passwords[this.currPass], ["Please confirm your password for: ", "."]);
+                setShapes(0, 0, false);
+                this.setModal(this.passwords[this.currPass], 'confirmation');
                 return;
             }
             this.currPass += 1;
@@ -157,15 +159,25 @@ class Setup {
             }
             this.currShape = -1;
             this.nextShape();
-            this.setModal(this.passwords[this.currPass], instructions_str);
+            this.setModal(this.passwords[this.currPass]);
             return;
         }
         nextAnim(this.getShape());
     }
-    setModal(pw, instructions) {
+    setModal(pw, mode) {
         modalState = true;
         $("#service").modal('show');
-        $("#instructions").html(instructions[0] + pw.service + instructions[1]);
+        $("#closeModal").focus();
+        let instructions = '';
+
+        if (mode === 'confirmation') {
+            instructions = `Please confirm your password for your: <b>${pw.service}</b> account. <b>Enter the two shapes together</b>.`
+        } else if (mode === 'log') {
+            instructions = `Please enter your given password for your: <b>${pw.service}</b> account. <b>Enter the two shapes previously given together</b>`
+        } else {
+            instructions = `Here is your password for your: <b>${pw.service}</b> account. It is given in <b>two seperate parts</b>. Please input your password as shown by the animation. You can use the given shapes below the entry box to help you memorize your password`;
+        }
+        $("#instructions").html(instructions);
         $("#serviceBar").html(pw.service);
     }
 }
@@ -183,14 +195,16 @@ class Log {
         this.loginTime = 0;
         this.attempts = 0;
         this.max_attempts = 3;
-        setup.setModal(pw, ["Please enter your full password for: ", "."]);
+        setup.setModal(pw, 'log');
     }
     validatePassword(pw) {
         if (pw.toUpperCase() === this.pass) {
             this.loginTime = performance.now() - this.time;
             this.receivedShapes = pw;
             return true;
-        } else return false;
+        } else {
+            return false;
+        }
     }
     toObj() {
         return {
@@ -205,11 +219,10 @@ class Log {
     }
 }
 
-const end = function end(success) {
-    console.log(success);
+const end = function end() {
     console.log(setup.response);
     $("#service").modal('show');
-    $("#instructions").html("You're done! Thanks for participating");
+    $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: <a>https://hotsoft.carleton.ca/comp3008limesurvey/index.php/survey/index/sid/476963/newtest/Y/lang/en<\a>");
 
     //send reponse to the server here
     $.post("/testResults", JSON.stringify(setup.response, null, 2));
@@ -223,14 +236,14 @@ const end = function end(success) {
  */
 const setShapes = function(pw, cp, flag) {
     if (!flag) {
-        for (let i=0; i<2; i++) $('#shape'+i).html("");
+        for (let i = 0; i < 2; i++) $('#shape' + i).html("");
     }
     if (pw[cp] === undefined) return;
     for (let i = 0; i < 2; i++) {
         if (pw[cp].shapes[i].type === 'rect')
-            $('#shape' + i).html('▱');
+            $('#shape' + i).html("Starts with: " + pw[cp].shapes[i].shape[0] + '<br>▱');
         else
-            $('#shape' + i).html('━');
+            $('#shape' + i).html("Starts with: " + pw[cp].shapes[i].shape[0] + '<br>━');
     }
 }
 
@@ -247,7 +260,7 @@ const nextAnim = function(shape) {
     const duration = 300 * shape.split('').length;
     const delay = 300;
 
-    var motionPath = anime({
+    anime({
         targets: '#motionPath .el',
         delay,
         easing: 'easeInOutQuad',
@@ -337,7 +350,6 @@ function uniCharCode(event) {
 }
 
 function setTruthKeyShadows(err) {
-    const keys = document.querySelectorAll(".row .keys .letter");
     //console.log(keys)
     for (let element of keyArr) {
         for (let x of keyPressProperties) {
@@ -347,8 +359,6 @@ function setTruthKeyShadows(err) {
 }
 
 function clearKeyShadows() {
-    const keys = document.querySelectorAll(".row .keys .letter");
-    //console.log(keys)
     for (let element of keyArr) {
         for (let x of keyPressProperties) {
             element.style[x] = null;
