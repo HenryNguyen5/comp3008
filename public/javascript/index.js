@@ -237,7 +237,7 @@ const end = function end() {
         contentType: "application/json"
     });
     $("#service").modal('show');
-    $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: <a href=\"https://hotsoft.carleton.ca/comp3008limesurvey/index.php/survey/index/sid/476963/newtest/Y/lang/en\"<\a>");
+    $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: https://tinyurl.com/comp3008survey");
 
 
 }
