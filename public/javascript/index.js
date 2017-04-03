@@ -1,5 +1,6 @@
 /* global anime */
 let setup;
+let modalState = true;
 
 const instructions_start = "Placeholder";
 
@@ -14,10 +15,27 @@ $(function() {
         dataType: 'json'
     });
 
+    $("#service").on('hidden.bs.modal', function() {
+        modalState = false;
+    })
+
     //enter key handler
     $("#pwBox").keypress(function(ev) {
-        if (ev.which === 13) {
-
+        if (ev.which === 13 && !modalState) {
+            try {
+                if (setup.passwords[setup.currPass].verified) {
+                    if (setup.validateCompletePassword($(this).val())) {
+                        $("#motionPath").toggle();
+                        setTruthKeyShadows(false);
+                        setTimeout(function() {
+                            clearKeyShadows();
+                        }, 600);
+                        setup.nextShape();
+                    }
+                    $(this).val("");
+                    return;
+                }
+            } catch (e) { console.log("to be expected"); }
             if (!setup.logging) {
                 if (setup.validatePassword($(this).val())) {
                     setTruthKeyShadows(false);
@@ -67,14 +85,17 @@ class Setup {
         this.data = data;
         this.passwords = [];
         for (let o of Object.keys(data)) this.passwords.push(data[o]);
-        for (let p of this.passwords) p.logged = false;
+        for (let p of this.passwords) { 
+            p.logged = false;
+            p.verified = false;
+        }
         this.currPass = 0;
         this.currShape = 0;
         this.setModal(this.passwords[this.currPass], instructions_str);
         this.logging = false;
         this.response = [];
         this.log = null;
-        setShapes(this.passwords, this.currPass);
+        setShapes(this.passwords, this.currPass, true);
         nextAnim(this.getShape());
     }
     getShape() {
@@ -82,6 +103,12 @@ class Setup {
     }
     validatePassword(pw) {
         return pw.toUpperCase() === this.getShape();
+    }
+    validateCompletePassword(pw) {
+        let str = "";
+        for (let i=0; i < this.passwords[this.currPass].shapes.length; i++)
+            str += this.passwords[this.currPass].shapes[i].shape;
+        return pw.toUpperCase() === str;
     }
     addLog() {
         this.response.push(this.log.toObj());
@@ -103,8 +130,16 @@ class Setup {
     nextShape() {
         this.currShape += 1;
         if (this.currShape === this.passwords[this.currPass].shapes.length) {
+            if (!this.passwords[this.currPass].verified) {
+                this.currShape -= 1;
+                this.passwords[this.currPass].verified = true;
+                $("#motionPath").toggle();
+                setShapes(0,0, false);
+                this.setModal(this.passwords[this.currPass], ["Please confirm your password for: ", "."]);
+                return;
+            }
             this.currPass += 1;
-            setShapes(this.passwords, this.currPass);
+            setShapes(this.passwords, this.currPass, true);
             if (this.currPass === this.passwords.length) {
                 this.logging = true;
                 $('#motionPath').remove();
@@ -119,6 +154,7 @@ class Setup {
         nextAnim(this.getShape());
     }
     setModal(pw, instructions) {
+        modalState = true;
         $("#service").modal('show');
         $("#instructions").html(instructions[0] + pw.service + instructions[1]);
         $("#serviceBar").html(pw.service);
@@ -174,8 +210,12 @@ const end = function end(success) {
  * sets the shapes underneath the input bar
  * @param {Object} pw 
  * @param {Integer} cp 
+ * @param {Bool} flag
  */
-const setShapes = function(pw, cp) {
+const setShapes = function(pw, cp, flag) {
+    if (!flag) {
+        for (let i=0; i<2; i++) $('#shape'+i).html("");
+    }
     if (pw[cp] === undefined) return;
     for (let i = 0; i < 2; i++) {
         if (pw[cp].shapes[i].type === 'rect')
@@ -211,8 +251,12 @@ const nextAnim = function(shape) {
 }
 
 const setPath = function setPath(path) {
-    let e = document.getElementById('pwPath');
-    e.setAttribute('d', path);
+    try {
+        let e = document.getElementById('pwPath');
+        e.setAttribute('d', path);
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 const convertCoordsToSvg = function convertCoordsToSvg(coords) {
@@ -304,7 +348,3 @@ function clearKeyShadows() {
 
     keyArr.length = 0;
 }
-$(document).keyup(function() {
-    $('.modal').modal('hide');
-    document.getElementById('pwBox').focus();
-});
