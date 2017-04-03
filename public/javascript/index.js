@@ -18,7 +18,16 @@ $(function() {
     $("#service").on('hidden.bs.modal', function() {
         $("#pwBox").focus();
         modalState = false;
-    })
+    });
+
+    $("#goBack").click(() => {
+        setup = new Setup(data);
+        $("#motionPath").toggle();
+    });
+
+    $("#tryAgain").click(() => {
+        //
+    });
 
     //enter key handler
     $("#pwBox").keypress(function(ev) {
@@ -32,19 +41,16 @@ $(function() {
                             clearKeyShadows();
                         }, 600);
                         setup.nextShape();
-                        $(this).val("");
-                        return;
                     } else {
+                        $("#redo").modal('show');
+                        $("#goBack").focus();
                         setTruthKeyShadows(true);
                         setTimeout(function() {
                             clearKeyShadows();
                         }, 600);
-                        setup = new Setup(data);
-                        $("#motionPath").toggle();
-                        $(this).val("");
-                        return;
                     }
-
+                    $(this).val("");
+                    return;
                 }
             } catch (e) { console.log("to be expected"); }
             if (!setup.logging) {
