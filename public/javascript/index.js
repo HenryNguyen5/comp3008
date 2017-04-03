@@ -23,10 +23,11 @@ $(function() {
     $("#goBack").click(() => {
         setup = new Setup(data);
         $("#motionPath").toggle();
+        $("#pwBox").focus();
     });
 
     $("#tryAgain").click(() => {
-        //
+        $("#pwBox").focus();
     });
 
     //enter key handler
