@@ -1,5 +1,5 @@
 /* global anime */
-let setup, data;
+let setup, data, done = false;
 let modalState = true;
 
 
@@ -10,6 +10,7 @@ $(function() {
         url: '/getPassword',
         success: (d) => {
             setup = new Setup(d);
+            setup.start();
             data = d;
         },
         dataType: 'json'
@@ -21,7 +22,10 @@ $(function() {
     });
 
     $("#goBack").click(() => {
+        let temp = setup.currPass;
         setup = new Setup(data);
+        setup.currPass = temp;
+        setup.start();
         $("#motionPath").toggle();
         $("#pwBox").focus();
     });
@@ -109,10 +113,12 @@ class Setup {
         }
         this.currPass = 0;
         this.currShape = 0;
-        this.setModal(this.passwords[this.currPass]);
         this.logging = false;
         this.response = [];
         this.log = null;
+    }
+    start() {
+        this.setModal(this.passwords[this.currPass]);
         setShapes(this.passwords, this.currPass, true);
         nextAnim(this.getShape());
     }
@@ -227,6 +233,8 @@ class Log {
 }
 
 const end = function end() {
+    if (done) return;
+    done = true;
     console.log(setup.response);
     //send reponse to the server here
     $.ajax({
