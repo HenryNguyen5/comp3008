@@ -25,8 +25,18 @@ block content
     .modal-dialog
       .modal-content
         .modal-header
-          h4#uploadFileModal.modal-title.text-center Instructions
+          h4.modal-title.text-center Instructions
         .modal-body
           p#instructions Instructions
         .modal-footer
           button#closeModal.btn.btn-primary(type='button' autofocus data-dismiss='modal') Close
+  #redo.modal(role='dialog'  data-focus='true' data-animation="false")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          h4.modal-title.text-center Instructions
+        .modal-body
+          p Wrong password entered. Either try again or go back and see the password again.
+        .modal-footer
+          button#goBack.btn.btn-primary(type='button' autofocus data-dismiss='modal') Go Back
+          button#tryAgain.btn.btn-secondary(type='button' autofocus data-dismiss='modal') Try Again
