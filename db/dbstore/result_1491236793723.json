@@ -1,4 +1,4 @@
-[
+[//107
   {
     "service": "Email",
     "allowedAttempts": 2,
@@ -6,17 +6,17 @@
     "givenShapes": [
       {
         "type": "triangle",
-        "shape": "HNB"
+        "shape": "4RFVCXZSE"
       },
       {
         "type": "line",
-        "shape": "EWQ"
+        "shape": ";P"
       }
     ],
     "receivedShapes": [
-      "faefeaae",
-      "gragra",
-      "fagrasgras"
+      "uhbnm,ki8okl;p0",
+      "uhbnm,ki8ol;p0",
+      "uhbnm,ki8okl;p0"
     ],
     "failed": true,
     "loginTime": 0
@@ -28,17 +28,17 @@
     "givenShapes": [
       {
         "type": "triangle",
-        "shape": "HNB"
+        "shape": "4RFVCXZSE"
       },
       {
         "type": "line",
-        "shape": "EWQ"
+        "shape": ";P"
       }
     ],
     "receivedShapes": [
-      "greresgrdsg",
-      "greareag",
-      "raegragera"
+      "uhbnm,ki8okl;p0",
+      "",
+      "uhbnm,ki8"
     ],
     "failed": true,
     "loginTime": 0
@@ -49,18 +49,18 @@
     "attempts": 3,
     "givenShapes": [
       {
-        "type": "rect",
-        "shape": "5432WSDFGT"
+        "type": "triangle",
+        "shape": "UHBNM,KI8"
       },
       {
         "type": "triangle",
-        "shape": "RDFGT5"
+        "shape": "OKL;P0"
       }
     ],
     "receivedShapes": [
-      "greageaga",
-      "greagar",
-      "greaga"
+      "uhbnm,ki80okl;p",
+      "uhbnm,ki80p;lko",
+      "uhbnm,ki8./;p"
     ],
     "failed": true,
     "loginTime": 0
@@ -71,18 +71,18 @@
     "attempts": 3,
     "givenShapes": [
       {
-        "type": "triangle",
-        "shape": "HNB"
+        "type": "rect",
+        "shape": "098IK,./;P"
       },
       {
-        "type": "line",
-        "shape": "OL"
+        "type": "triangle",
+        "shape": "SZXCDE"
       }
     ],
     "receivedShapes": [
-      "gra",
-      "gar",
-      "gra"
+      "uhbnm,ki80p;lko",
+      "uhbnm,ki80okl;p",
+      "uhbnnm,ki80okl;p"
     ],
     "failed": true,
     "loginTime": 0
@@ -93,18 +93,18 @@
     "attempts": 3,
     "givenShapes": [
       {
-        "type": "rect",
-        "shape": "5432WSDFGT"
+        "type": "triangle",
+        "shape": "UHBNM,KI8"
       },
       {
         "type": "triangle",
-        "shape": "RDFGT5"
+        "shape": "OKL;P0"
       }
     ],
     "receivedShapes": [
-      "grea",
-      "gra",
-      "gra"
+      "uhbnm,ki8ok,.;p0",
+      "uhbnm,ki89olko",
+      "4rfvcxsw"
     ],
     "failed": true,
     "loginTime": 0
@@ -115,18 +115,18 @@
     "attempts": 3,
     "givenShapes": [
       {
-        "type": "triangle",
-        "shape": "HNB"
+        "type": "rect",
+        "shape": "098IK,./;P"
       },
       {
-        "type": "line",
-        "shape": "OL"
+        "type": "triangle",
+        "shape": "SZXCDE"
       }
     ],
     "receivedShapes": [
-      "grea",
-      "gra",
-      "gra"
+      "rfvcxswpoij",
+      "wsxcdeokjui",
+      "4rfde3uhbnm,.lo"
     ],
     "failed": true,
     "loginTime": 0

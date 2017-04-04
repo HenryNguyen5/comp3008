@@ -1,0 +1,123 @@
+[//119
+  {
+    "service": "Bank",
+    "allowedAttempts": 2,
+    "attempts": 1,
+    "givenShapes": [
+      {
+        "type": "triangle",
+        "shape": "4RFVCXZSE"
+      },
+      {
+        "type": "rect",
+        "shape": ";LKIOP"
+      }
+    ],
+    "receivedShapes": [
+      "4rfvcxzse;lkiop"
+    ],
+    "failed": false,
+    "loginTime": 8999.160000000003
+  },
+  {
+    "service": "Email",
+    "allowedAttempts": 2,
+    "attempts": 1,
+    "givenShapes": [
+      {
+        "type": "line",
+        "shape": "2WS"
+      },
+      {
+        "type": "line",
+        "shape": "FR4"
+      }
+    ],
+    "receivedShapes": [
+      "2wsfr4"
+    ],
+    "failed": false,
+    "loginTime": 4179.095000000016
+  },
+  {
+    "service": "Bank",
+    "allowedAttempts": 2,
+    "attempts": 1,
+    "givenShapes": [
+      {
+        "type": "triangle",
+        "shape": "4RFVCXZSE"
+      },
+      {
+        "type": "rect",
+        "shape": ";LKIOP"
+      }
+    ],
+    "receivedShapes": [
+      "4rfvcxzse;lkiop"
+    ],
+    "failed": false,
+    "loginTime": 7238.165000000008
+  },
+  {
+    "service": "Email",
+    "allowedAttempts": 2,
+    "attempts": 2,
+    "givenShapes": [
+      {
+        "type": "line",
+        "shape": "2WS"
+      },
+      {
+        "type": "line",
+        "shape": "FR4"
+      }
+    ],
+    "receivedShapes": [
+      "3edgt5",
+      "2wsfr4"
+    ],
+    "failed": false,
+    "loginTime": 9252.304999999993
+  },
+  {
+    "service": "Facebook",
+    "allowedAttempts": 2,
+    "attempts": 1,
+    "givenShapes": [
+      {
+        "type": "rect",
+        "shape": "GHJKIUYT"
+      },
+      {
+        "type": "triangle",
+        "shape": "ESZXCVFR4"
+      }
+    ],
+    "receivedShapes": [
+      "ghjkiuyteszxcvfr4"
+    ],
+    "failed": false,
+    "loginTime": 8608.684999999998
+  },
+  {
+    "service": "Facebook",
+    "allowedAttempts": 2,
+    "attempts": 1,
+    "givenShapes": [
+      {
+        "type": "rect",
+        "shape": "GHJKIUYT"
+      },
+      {
+        "type": "triangle",
+        "shape": "ESZXCVFR4"
+      }
+    ],
+    "receivedShapes": [
+      "ghjkiuyteszxcvfr4"
+    ],
+    "failed": false,
+    "loginTime": 5919.075000000012
+  }
+]
