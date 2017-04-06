@@ -1,12 +1,8 @@
 #!/usr/bin/env node
 
-/* -*-mode: javascript-*- */
-/* The above line forces this file into javascript mode in emacs */
-
 /**
  * Module dependencies.
  */
-//172.31.192.36/
 const app = require('../app');
 import http = require('http');
 
@@ -18,23 +14,22 @@ const port = normalizePort(process.argv[2] || process.env.PORT || '3000');
 app.set('port', port);
 
 const ipAddress = (process.argv[3] || 'localhost');
+
 /**
  * Create HTTP server.
  */
-
 const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
-
 server.listen(port, ipAddress);
 server.on('error', onError);
 server.on('listening', onListening);
+
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
 	const port = parseInt(val, 10);
 
@@ -54,7 +49,6 @@ function normalizePort(val) {
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
 	if (error.syscall !== 'listen') {
 		throw error;
@@ -82,7 +76,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
 	const addr = server.address();
 	const bind = typeof addr === 'string' ?

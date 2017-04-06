@@ -1,3 +1,41 @@
+/**
+ * @name {setPath}
+ * Sets the svg path of an element (pwPath)
+ * @param {*} path path to set 
+ */
+/**
+ * @name {convertCoordsToSvg}
+ * Takes an array of coordinates and converts it into a svg path
+ * @param {Array} coords an array of pixel coordinates
+ * @returns {String} svgd A string representing the SVG path of a shape
+ */
+/**
+ * @name {getShapeCoords}
+ * Takes a shape represented via a string of characters and converts them to pixel coordinates which it then returns
+ * as an array
+ * @param {String} str
+ * @returns {Array}
+ */
+/**
+ * @name {getCoordinates}
+ * Gets the relative pixel coordinates of an element via ID and returns them in JSON format {x,y}
+ * @param {Object} id
+ * @returns {x, y}
+ */
+/**
+ * @name {uniCharCode}
+ *  Sets pressed keys shadowing to a green shadow and pushes it on a global key pressed array
+ * @param {any} event 
+ */
+/**
+ * @name {setTruthKeyShadows}
+ * Sets the shadowing of pressed keys to either "error" or "true" depending on parameter passed in
+ * @param {any} err 
+ */
+/**
+ * @name {clearKeyShadows}
+ * Clears css shadowing on keys previously pressed
+ */
 /* global anime */
 let setup, data, done = false;
 let modalState = true;
@@ -244,13 +282,7 @@ const end = function end() {
         contentType: "application/json"
     });
     $("#service").modal('show');
-<<<<<<< HEAD
-    $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: https://tinyurl.com/comp3008survey");
-=======
     $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: tinyurl.com/comp3008survey");
->>>>>>> bf125c758fcbb8329a2834464f09356af99883a5
-
-
 }
 
 /**
@@ -274,8 +306,8 @@ const setShapes = function(pw, cp, flag) {
 }
 
 /**
- * Loads the arrow animation
- * 
+ * @name {nextAnim}
+ * Loads the arrow animation of a shape path
  * @param {String} shape 
  */
 const nextAnim = function(shape) {
@@ -298,6 +330,7 @@ const nextAnim = function(shape) {
     });
 }
 
+
 const setPath = function setPath(path) {
     try {
         let e = document.getElementById('pwPath');
@@ -306,6 +339,7 @@ const setPath = function setPath(path) {
         console.log(e);
     }
 }
+
 
 const convertCoordsToSvg = function convertCoordsToSvg(coords) {
     let svgd = '';
@@ -329,15 +363,12 @@ const getShapeCoords = function getShapeCoords(str) {
     return coordArr;
 }
 
+
 const getCoordinates = function getCoordinates(id) {
     const element = document.getElementById(id);
     const offset = $("#_1").offset();
     const position = $("#_1").position();
 
-
-    element.onkeydown = function() {
-        alert('onkeydown');
-    }
     let ele = element.getClientRects()[0];
     let middleX = ele.left + (ele.width / 1.4) - (offset.left - position.left)
     let middleY = ele.top - (offset.top - position.top) + (ele.height / 1.9);
@@ -353,8 +384,8 @@ const keyErr = "0px 0px 102px -3px rgba(255,59,59,0.82)"
 const keySucc = " 0px 0px 50px 14px rgba(136, 209, 153, 0.77)";
 let keyArr = []
 
+
 function uniCharCode(event) {
-    //const keyPressProperties = ["-webkit-box-shadow", "-moz-box-shadow", "box-shadow"];
     const keyPressValue = " 0px 0px 42px 8px rgba(136, 209, 153, 0.77)";
     try {
         if (event.key === 'Backspace') {
@@ -370,19 +401,18 @@ function uniCharCode(event) {
             keyArr.push(element)
         }
 
-    } catch (e) {
-        //console.log(e)
-    }
+    } catch (e) {}
 }
 
+
 function setTruthKeyShadows(err) {
-    //console.log(keys)
     for (let element of keyArr) {
         for (let x of keyPressProperties) {
             element.style[x] = (err ? keyErr : keySucc);
         }
     }
 }
+
 
 function clearKeyShadows() {
     for (let element of keyArr) {

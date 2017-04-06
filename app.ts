@@ -1,6 +1,5 @@
 import express = require('express');
 import path = require('path');
-
 const app = express();
 import { router as routes } from './routes/index';
 import * as bp from 'body-parser';
