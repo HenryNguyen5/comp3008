@@ -1,4 +1,20 @@
 /**
+ * @class Setup Class for handling password state and rendering
+ * @method start Post construction method for rendering the first shape of a password
+ * @method getShape Gets the current shape of the setup instance
+ * @method validatePassword Validates the current shape the user just inputted
+ * @method validateCompletePassword Validates the entire password the user inputted
+ * @method addLog Push a new log onto an array of Logs and prepares the next log 
+ * @method nextLog Logs the next password scheme
+ * @method nextShape Renders the next shape password and its corresponding modal 
+ * @method setModal Sets the modal description for the user 
+ */
+/**
+ * @class Log A class for storing logging data about the users interaction with the password scheme
+ * @method validatePassword validate the users password entry and also log their login time if successful 
+ * @method toObj convert the Log instance to a JSON object to be send back to the server for storage and analysis
+ */
+/**
  * @name {setPath}
  * Sets the svg path of an element (pwPath)
  * @param {*} path path to set 
@@ -43,6 +59,7 @@ let modalState = true;
 
 
 $(function() {
+    //get password schemes from server and initialize password rendering
     $.ajax({
         method: "GET",
         url: '/getPassword',
@@ -54,11 +71,13 @@ $(function() {
         dataType: 'json'
     });
 
+    //handler to hide modal    
     $("#service").on('hidden.bs.modal', function() {
         $("#pwBox").focus();
         modalState = false;
     });
 
+    //handle button click to go back to the previous animation
     $("#goBack").click(() => {
         let temp = setup.currPass;
         setup = new Setup(data);
@@ -68,6 +87,7 @@ $(function() {
         $("#pwBox").focus();
     });
 
+    //handler for try again button    
     $("#tryAgain").click(() => {
         $("#pwBox").focus();
     });
@@ -76,7 +96,9 @@ $(function() {
     $("#pwBox").keypress(function(ev) {
         if (ev.which === 13 && !modalState) {
             try {
+                //password verification phase for user
                 if (setup.passwords[setup.currPass].verified) {
+                    //if password is successfully entered, clear shadowing and go to next password
                     if (setup.validateCompletePassword($(this).val())) {
                         $("#motionPath").toggle();
                         setTruthKeyShadows(false);
@@ -85,6 +107,7 @@ $(function() {
                         }, 600);
                         setup.nextShape();
                     } else {
+                        //else show failure, and present user to try again or go back
                         $("#redo").modal('show');
                         $("#goBack").focus();
                         setTruthKeyShadows(true);
@@ -95,8 +118,12 @@ $(function() {
                     $(this).val("");
                     return;
                 }
-            } catch (e) { console.log("to be expected"); }
+            } catch (e) {
+
+            }
+            //intial generation phase for user where we animate passwords to them
             if (!setup.logging) {
+                //if they enter in the password according to the animation, go to next shape
                 if (setup.validatePassword($(this).val())) {
                     setTruthKeyShadows(false);
                     setTimeout(function() {
@@ -104,15 +131,16 @@ $(function() {
                         setup.nextShape();
                     }, 750);
 
-
+                    //otherwise clear the pw box and let them enter it again
                 } else {
                     setTruthKeyShadows(true);
                     setTimeout(function() {
                         clearKeyShadows();
                     }, 600);
-                    console.log("dun goofed");
+
                 }
             } else {
+                //testing phase for user's password memory retention
                 setup.log.attempts += 1;
                 if (setup.log.validatePassword($(this).val())) {
                     setTruthKeyShadows(false);
@@ -127,6 +155,7 @@ $(function() {
                         clearKeyShadows();
                     }, 750);
 
+                    //allow up to 3 tries
                     if (setup.log.attempts > setup.log.max_attempts) {
                         setup.log.failed = true;
                         setup.addLog();
@@ -139,6 +168,7 @@ $(function() {
         }
     });
 });
+
 
 class Setup {
     constructor(data) {
@@ -232,6 +262,7 @@ class Setup {
         $("#serviceBar").html(pw.service);
     }
 }
+
 
 class Log {
     constructor(pw) {
