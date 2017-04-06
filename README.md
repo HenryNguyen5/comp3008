@@ -1,6 +1,4 @@
 # comp3008
-Folder hierarchy:
-
 ## /db --> stores JSON data used for password analysis
 ## /lib --> stores file for generating password schemes
 ## /public --> stores static files to be served to the client 
