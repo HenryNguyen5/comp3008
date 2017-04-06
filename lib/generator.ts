@@ -2,7 +2,27 @@
 	Alexandre Skipper
 	100978454
 */
-
+/**
+ * @name {generate_rect}
+ * returns a string of characters forming a rectangle
+ * @returns {String} rectangle encoded in characters
+ */
+/**
+ * @name {generate_line}
+ * returns a string of characters forming a line
+ * @returns {String} line encoded in characters
+ */
+/**
+ * @name {generate_triangle}
+ * returns a string of characters forming a triangle
+ * @returns {String} triangle encoded in characters
+ */
+/**
+ * @name {rand_int}
+ * @param min 
+ * @param max
+ * @return {Number} random integer in the range [min, max)
+ */
 const keyboard = [
 	["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
 	["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
@@ -18,9 +38,7 @@ const min_line_size = 3; //min size of a line
 const min_tri_size = 2;
 const max_tri_size = 4;
 
-/*
-	returns a string of characters forming a rectangle
-*/
+
 const generate_rect = function generate_rect() {
 	let str = "";
 	//top left corner of rectangle
@@ -83,9 +101,7 @@ const generate_rect = function generate_rect() {
 	return str;
 };
 
-/*
-	returns a string of characters forming a line
-*/
+
 const generate_line = function generate_line() {
 	let str = "";
 	const horizontal = Math.random() < 0.5 ? true : false;
@@ -118,9 +134,9 @@ const generate_line = function generate_line() {
 	return str;
 };
 
-/*
-	returns a string of characters forming a triangle
-*/
+
+
+
 const generate_triangle = function generate_triangle() {
 	let str = "";
 	//choose size (2-4)
@@ -148,13 +164,7 @@ const generate_triangle = function generate_triangle() {
 	return str;
 };
 
-/*
-	@param min : minimum value
-	@param max : maximum value
-	@return : random integer in the range [min, max)
-*/
 const rand_int = function (min, max) {
 	return Math.floor((Math.random() * (max - min)) + min);
 };
-console.log(generate_triangle());
 export { generate_line, generate_rect, generate_triangle }
