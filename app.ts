@@ -1,3 +1,6 @@
+/**
+ * Generic application file to startup server and intialize the routes exported by the router
+ */
 import express = require('express');
 import path = require('path');
 const app = express();
