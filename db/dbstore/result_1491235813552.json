@@ -1,0 +1,131 @@
+//105
+[
+  {
+    "service": "Facebook",
+    "allowedAttempts": 2,
+    "attempts": 3,
+    "givenShapes": [
+      {
+        "type": "triangle",
+        "shape": "OL.,MK"
+      },
+      {
+        "type": "line",
+        "shape": "YH"
+      }
+    ],
+    "receivedShapes": [
+      "43er;p",
+      "ol.,mkytr",
+      ""
+    ],
+    "failed": true,
+    "loginTime": 0
+  },
+  {
+    "service": "Facebook",
+    "allowedAttempts": 2,
+    "attempts": 3,
+    "givenShapes": [
+      {
+        "type": "triangle",
+        "shape": "OL.,MK"
+      },
+      {
+        "type": "line",
+        "shape": "YH"
+      }
+    ],
+    "receivedShapes": [
+      "",
+      "",
+      ""
+    ],
+    "failed": true,
+    "loginTime": 0
+  },
+  {
+    "service": "Email",
+    "allowedAttempts": 2,
+    "attempts": 3,
+    "givenShapes": [
+      {
+        "type": "rect",
+        "shape": "43ER"
+      },
+      {
+        "type": "line",
+        "shape": ";P"
+      }
+    ],
+    "receivedShapes": [
+      "",
+      "jhg",
+      "43er;p"
+    ],
+    "failed": false,
+    "loginTime": 14048.75
+  },
+  {
+    "service": "Email",
+    "allowedAttempts": 2,
+    "attempts": 1,
+    "givenShapes": [
+      {
+        "type": "rect",
+        "shape": "43ER"
+      },
+      {
+        "type": "line",
+        "shape": ";P"
+      }
+    ],
+    "receivedShapes": [
+      "43er;p"
+    ],
+    "failed": false,
+    "loginTime": 4799.8000000000175
+  },
+  {
+    "service": "Bank",
+    "allowedAttempts": 2,
+    "attempts": 3,
+    "givenShapes": [
+      {
+        "type": "line",
+        "shape": "5T"
+      },
+      {
+        "type": "rect",
+        "shape": "HGFDCVBN"
+      }
+    ],
+    "receivedShapes": [
+      "5thgfdsxcvb",
+      "5thgfdcvb",
+      "5thgfdcvbn"
+    ],
+    "failed": false,
+    "loginTime": 26389.660000000003
+  },
+  {
+    "service": "Bank",
+    "allowedAttempts": 2,
+    "attempts": 1,
+    "givenShapes": [
+      {
+        "type": "line",
+        "shape": "5T"
+      },
+      {
+        "type": "rect",
+        "shape": "HGFDCVBN"
+      }
+    ],
+    "receivedShapes": [
+      "5thgfdcvbn"
+    ],
+    "failed": false,
+    "loginTime": 9869.88500000001
+  }
+]

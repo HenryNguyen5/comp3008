@@ -1,5 +1,5 @@
 /* global anime */
-let setup, data;
+let setup, data, done = false;
 let modalState = true;
 
 
@@ -10,6 +10,7 @@ $(function() {
         url: '/getPassword',
         success: (d) => {
             setup = new Setup(d);
+            setup.start();
             data = d;
         },
         dataType: 'json'
@@ -21,8 +22,10 @@ $(function() {
     });
 
     $("#goBack").click(() => {
-        setup.currShape = -1;
-        setup.nextShape();
+        let temp = setup.currPass;
+        setup = new Setup(data);
+        setup.currPass = temp;
+        setup.start();
         $("#motionPath").toggle();
         $("#pwBox").focus();
     });
@@ -110,10 +113,12 @@ class Setup {
         }
         this.currPass = 0;
         this.currShape = 0;
-        this.setModal(this.passwords[this.currPass]);
         this.logging = false;
         this.response = [];
         this.log = null;
+    }
+    start() {
+        this.setModal(this.passwords[this.currPass]);
         setShapes(this.passwords, this.currPass, true);
         nextAnim(this.getShape());
     }
@@ -202,13 +207,13 @@ class Log {
         this.time = performance.now();
         this.loginTime = 0;
         this.attempts = 0;
-        this.max_attempts = 3;
+        this.max_attempts = 2;
         setup.setModal(pw, 'log');
     }
     validatePassword(pw) {
+        this.receivedShapes.push(pw);
         if (pw.toUpperCase() === this.pass) {
             this.loginTime = performance.now() - this.time;
-            this.receivedShapes = pw;
             return true;
         } else {
             return false;
@@ -228,6 +233,8 @@ class Log {
 }
 
 const end = function end() {
+    if (done) return;
+    done = true;
     console.log(setup.response);
     //send reponse to the server here
     $.ajax({
@@ -237,7 +244,11 @@ const end = function end() {
         contentType: "application/json"
     });
     $("#service").modal('show');
+<<<<<<< HEAD
     $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: https://tinyurl.com/comp3008survey");
+=======
+    $("#instructions").html("You're done! Thanks for participating.<br> Please take this survey: tinyurl.com/comp3008survey");
+>>>>>>> bf125c758fcbb8329a2834464f09356af99883a5
 
 
 }
@@ -256,8 +267,9 @@ const setShapes = function(pw, cp, flag) {
     for (let i = 0; i < 2; i++) {
         if (pw[cp].shapes[i].type === 'rect')
             $('#shape' + i).html("Starts with: " + pw[cp].shapes[i].shape[0] + '<br>▱');
-        else
+        else if (pw[cp].shapes[i].type == 'line')
             $('#shape' + i).html("Starts with: " + pw[cp].shapes[i].shape[0] + '<br>━');
+        else $('#shape' + i).html("Starts with: " + pw[cp].shapes[i].shape[0] + '<br>▲');
     }
 }
 

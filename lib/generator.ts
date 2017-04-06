@@ -14,8 +14,9 @@ const width = keyboard[0].length; //columns
 const height = keyboard.length; //rows
 const min_rect_size = 1; //min size of a rectangle -1?
 const max_rect_size = 4; //max size of a rectangle
-const min_line_size = 2; //min size of a line
-const max_line_Size = 6; //max size of a line
+const min_line_size = 3; //min size of a line
+const min_tri_size = 2;
+const max_tri_size = 4;
 
 /*
 	returns a string of characters forming a rectangle
@@ -118,8 +119,27 @@ const generate_line = function generate_line() {
 */
 const generate_triangle = function generate_triangle() {
 	let str = "";
+	//choose size (2-4)
+	const size = rand_int(min_tri_size, max_tri_size+1);
+	//choose top corner of triangle
+	const start_x = rand_int(size-1, width);
+	const start_y = rand_int(0, height-(size-1));
+	//add right side
+	for (let i=0; i<size; i++) {
+		str += keyboard[start_y+i][start_x];
+	}
+	//add bottom
+	for (let i=1; i<size; i++) {
+		str += keyboard[start_y+size-1][start_x-i];
+	}
+	//add left side
+	for (let i=1; i<size-1; i++) {
+		str += keyboard[start_y+(size-1)-i][start_x-(size-1)+i];
+	}
 
-	
+	if (Math.random() < 0.5) str = str.split('').reverse().join('');
+
+	return str;
 }
 
 /*
@@ -130,7 +150,5 @@ const generate_triangle = function generate_triangle() {
 const rand_int = function (min, max) {
 	return Math.floor((Math.random() * (max - min)) + min);
 };
-
-console.log(generate_line());
-
-export { generate_line, generate_rect }
+console.log(generate_triangle());
+export { generate_line, generate_rect, generate_triangle }
